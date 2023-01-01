@@ -1,0 +1,16 @@
+{% extends "members/auth_base.html" %}
+{% load static %}
+{% block title %} Page Not Found {% endblock %}
+
+{% block left_content %}
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <img src="{% static 'core/img/404.png' %}" class="my-4" width="100%">
+      <h1 class="mb-3"><b>Page Not Found</b></h1>
+      <h4 class="mb-5">Sorry! This page is missing or does not exists.</h4>
+      <a href="{% url 'core:index' %}" class="btn btn-primary btn-sm"><i class="fas fa-home"></i> Back To Homepage</a>
+    </div>
+  </div>
+
+{% endblock left_content %}

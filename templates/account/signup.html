@@ -1,0 +1,63 @@
+{% extends "members/auth_base.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block left_content %}
+
+  <h1>{% trans "Create an account" %}</h1>
+
+  <p>Sign up for a Smartpoet account</p>
+
+  <!-- NOTIFICATIONS SECTION BEGINS HERE -->
+
+    {% include 'core/alerts.html' %}
+
+  <!-- NOTIFICATIONS SECTION ENDS HERE-->
+
+  <!--<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>-->
+
+  <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger fade show formerror" role="alert">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+    {% csrf_token %}
+    <div class="row g-3 mb-3">
+
+      {% for field in form %}
+        <div class="col-12 col-md-6">
+          {% if field.help_text %}
+            <small id="help_text{{ field.field.widget.attrs.id }}" class="form-text text-muted">{{ field.help_text|safe }}</small>
+          {% endif %}
+
+          {{ field|attr:"class:form-control" }}
+
+          <ul class="errors list-unstyled pl-0 mb-0">
+            {% for error in field.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+      {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <div class="col-12">
+        <small class="form-text text-muted float-end">
+          <span> Already have an account? <a href="{% url 'account_login' %}">Sign in</a></span>
+        </small>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary btn-sm">{% trans "Sign Up" %}</button>
+        <a href="{% url 'core:index' %}" class="btn btn-secondary btn-sm float-end" role="button" ><i class="fas fa-angle-double-left fa-md"></i> Back to Smartpoet</a>
+      </div>
+
+    </div>
+
+  </form>
+
+{% endblock left_content %}

@@ -1,0 +1,27 @@
+{% extends "members/auth_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+
+{% block left_content %}
+
+    <h1>{% trans "Verify Your E-mail Address" %}</h1>
+
+    <!-- NOTIFICATIONS SECTION BEGINS HERE -->
+
+    {% include 'core/alerts.html' %}
+
+    <!-- NOTIFICATIONS SECTION ENDS HERE-->
+
+    <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
+
+    <p>Did not receive the verification e-mail?</p>
+
+    <!-- CONTACT SUPPORT BEGINS HERE -->
+
+    {% include "account/snippets/support_button.html" %}
+
+    <!-- CONTACT SUPPORT ENDS HERE-->
+
+{% endblock left_content %}

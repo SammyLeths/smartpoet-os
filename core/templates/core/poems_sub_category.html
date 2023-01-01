@@ -1,0 +1,563 @@
+{% extends "core/layout.html" %}
+{% load static %}
+{% block title %}
+    Poems Sub Category
+{% endblock %}
+{% block content %}
+
+  <div class="text-center pt-5">
+    <div class="container">
+      <div class="row my-5 justify-content-center">
+        <div class="col-md-9">
+          <h1>Browse All Adoption Poems</h1>
+          <p class="lead text-muted"> Uplifting Poems from Adopted Children
+
+Adopted children are often referred to as chosen children. People with love to give and none to bestow it upon seek out a child to raise with love. Some parents choose to conceal their child&#39;s adoption thinking that it will only cause him pain and a sense of non-belonging. Others choose to tell their chosen child thinking that he will find out anyway. When a child finds out that he is adopted, it may give rise to feelings of confusion and alienation. The important thing to remember is that having parents that love you whether biological or chosen is a tremendous gift. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-light pb-5">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 px-0">
+          <nav aria-label="breadcrumb" style="border-radius: 0px;">
+            <ol class="breadcrumb justify-content-center">
+              <li class="breadcrumb-item"><a href="/poems">Poems</a></li>
+
+              <li class="breadcrumb-item"><a href="/poems/family">Family</a></li>
+
+
+              <li class="breadcrumb-item active" aria-current="page">Adoption</li>
+
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <!-- LEFT SIDEBAR CONTENT BEGINS HERE -->
+        <div class="col-md-3 d-none d-sm-block">
+          <div class="sidebar-item">
+            <div class="make-me-sticky">
+              <div id="accordion" style="margin-top:15px;">
+                <!-- CATEGORY FILTER LIST BEGINS HERE -->
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header collapsed" id="headingOne26" data-toggle="collapse" data-target="#collapseOne26" aria-expanded="true" aria-controls="collapseOne26" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/children">Children Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne26" class="collapse " aria-labelledby="headingOne26" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/children/school">School</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header collapsed" id="headingOne24" data-toggle="collapse" data-target="#collapseOne24" aria-expanded="true" aria-controls="collapseOne24" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/death">Death Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne24" class="collapse " aria-labelledby="headingOne24" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/death/in-memory">In Memory</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header active-cat" id="headingOne27" data-toggle="collapse" data-target="#collapseOne27" aria-expanded="true" aria-controls="collapseOne27" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/family">Family Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne27" class="collapse show" aria-labelledby="headingOne27" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/family/divorce">Divorce</a></li>
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/family/wedding">Wedding</a></li>
+
+                            <li class="list-group-item active-sc active-cat" style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/family/adoption">Adoption</a></li>
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/family/abandonement">Abandonement</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header collapsed" id="headingOne28" data-toggle="collapse" data-target="#collapseOne28" aria-expanded="true" aria-controls="collapseOne28" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/funny">Funny Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne28" class="collapse " aria-labelledby="headingOne28" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/funny/humorous">Humorous</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header collapsed" id="headingOne31" data-toggle="collapse" data-target="#collapseOne31" aria-expanded="true" aria-controls="collapseOne31" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/life">Life Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne31" class="collapse " aria-labelledby="headingOne31" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/life/inspirational">Inspirational</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header collapsed" id="headingOne29" data-toggle="collapse" data-target="#collapseOne29" aria-expanded="true" aria-controls="collapseOne29" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/love">Love Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne29" class="collapse " aria-labelledby="headingOne29" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/love/first-love">First Love</a></li>
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/love/i-love-you">I Love You</a></li>
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/love/marriage">Marriage</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header collapsed" id="headingOne25" data-toggle="collapse" data-target="#collapseOne25" aria-expanded="true" aria-controls="collapseOne25" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/nature">Nature Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne25" class="collapse " aria-labelledby="headingOne25" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/nature/beauty">Beauty</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header collapsed" id="headingOne30" data-toggle="collapse" data-target="#collapseOne30" aria-expanded="true" aria-controls="collapseOne30" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/sad">Sad Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne30" class="collapse " aria-labelledby="headingOne30" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/sad/depression">Depression</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header collapsed" id="headingOne20" data-toggle="collapse" data-target="#collapseOne20" aria-expanded="true" aria-controls="collapseOne20" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/spiritual">Spiritual Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne20" class="collapse " aria-labelledby="headingOne20" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/spiritual/religion">Religion</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header collapsed" id="headingOne21" data-toggle="collapse" data-target="#collapseOne21" aria-expanded="true" aria-controls="collapseOne21" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/teens">Teens Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne21" class="collapse " aria-labelledby="headingOne21" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/teens/graduation">Graduation</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-radius:0px; border-bottom:0px;">
+                    <div class="card-header collapsed" id="headingOne22" data-toggle="collapse" data-target="#collapseOne22" aria-expanded="true" aria-controls="collapseOne22" style="padding:5px 15px; border-radius:0px;">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                          <a href="/poems/valentine">Valentine Poems</a>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne22" class="collapse " aria-labelledby="headingOne22" data-parent="#accordion">
+                      <div class="card-body" style="padding:10px;">
+                        <ul class="list-group" style="width: 100%;">
+
+                            <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/valentine/romantic">Romantic</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                <!-- CATEGORY FILTER LIST ENDS HERE -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- LEFT SIDEBAR CONTENT ENDS HERE -->
+
+        <!-- RIGHT SIDE CONTENT BEGINS HERE -->
+        <div class="col-md-9 pt-5">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <!-- FRONTEND ALL POEMS LISTINGS BEGINS HERE -->
+
+                <div class="col-md-6 p-3">
+                  <div class="card box-shadow">
+                    <img class="card-img-top" src="{% static 'posts/img/post_image/sammyleths_To_A_Mother_I_Never_Knew.jpg' %}">
+                    <div class="card-body">
+                      <p class="text-uppercase"><a href="{% url 'core:poemsCategory' cat_slug='family' %}">Family</a></p>
+                      <h5 class=""><a href="{% url 'core:poem' slug='to-a-mother-i-never-knew' %}" class="text-dark bold-1">To A Mother I Never Knew</a>
+                      </h5>
+                      <p class="card-text">To a mother I never knew,From a son who desperately...</p>
+                      <p class="">By: <a href="{% url 'core:poet' username='sammyleths' %}">Sammy</a></p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                          <a href="{% url 'core:poem' slug='to-a-mother-i-never-knew' %}"><button type="button" class="btn btn-outline-dark btn-sm">Read More</button></a>
+                        </div>
+                        <small class="text-muted">Published: 29 Jul, 2020</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FRONTEND ALL POEMS LISTINGS ENDS HERE -->
+              </div>
+              <!-- FRONTEND ALL POEMS PAGINATION NAVIGATION BEGINS HERE -->
+              <div class="row py-5">
+                <div class="col-md-12">
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center float-right">
+
+                        <li class="page-item"><a class="page-link btn disabled" href="#">Previous</a></li>
+
+
+
+
+                          <li class="page-item disabled">
+                            <a class="page-link" href="/poems?page=1">1</a>
+                          </li>
+
+
+
+
+                        <li class="page-item"><a class="page-link btn disabled" href="#">Next</a></li>
+
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              <!-- FRONTEND ALL POEMS PAGINATION NAVIGATION ENDS HERE -->
+              <div class="row">
+                <div class="col-md-12 d-block d-sm-none">
+                  <h3>Browse By Category</h3>
+                  <div id="accordion" style="margin-top:15px;">
+                    <!-- CATEGORY FILTER LIST BEGINS HERE -->
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header collapsed" id="headingOne26" data-toggle="collapse" data-target="#collapseOne26" aria-expanded="true" aria-controls="collapseOne26" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/children">Children Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne26" class="collapse " aria-labelledby="headingOne26" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/children/school">School</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header collapsed" id="headingOne24" data-toggle="collapse" data-target="#collapseOne24" aria-expanded="true" aria-controls="collapseOne24" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/death">Death Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne24" class="collapse " aria-labelledby="headingOne24" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/death/in-memory">In Memory</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header active-cat" id="headingOne27" data-toggle="collapse" data-target="#collapseOne27" aria-expanded="true" aria-controls="collapseOne27" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/family">Family Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne27" class="collapse show" aria-labelledby="headingOne27" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/family/divorce">Divorce</a></li>
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/family/wedding">Wedding</a></li>
+
+                                <li class="list-group-item active-sc active-cat" style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/family/adoption">Adoption</a></li>
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/family/abandonement">Abandonement</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header collapsed" id="headingOne28" data-toggle="collapse" data-target="#collapseOne28" aria-expanded="true" aria-controls="collapseOne28" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/funny">Funny Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne28" class="collapse " aria-labelledby="headingOne28" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/funny/humorous">Humorous</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header collapsed" id="headingOne31" data-toggle="collapse" data-target="#collapseOne31" aria-expanded="true" aria-controls="collapseOne31" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/life">Life Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne31" class="collapse " aria-labelledby="headingOne31" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/life/inspirational">Inspirational</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header collapsed" id="headingOne29" data-toggle="collapse" data-target="#collapseOne29" aria-expanded="true" aria-controls="collapseOne29" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/love">Love Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne29" class="collapse " aria-labelledby="headingOne29" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/love/first-love">First Love</a></li>
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/love/i-love-you">I Love You</a></li>
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/love/marriage">Marriage</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header collapsed" id="headingOne25" data-toggle="collapse" data-target="#collapseOne25" aria-expanded="true" aria-controls="collapseOne25" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/nature">Nature Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne25" class="collapse " aria-labelledby="headingOne25" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/nature/beauty">Beauty</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header collapsed" id="headingOne30" data-toggle="collapse" data-target="#collapseOne30" aria-expanded="true" aria-controls="collapseOne30" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/sad">Sad Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne30" class="collapse " aria-labelledby="headingOne30" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/sad/depression">Depression</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header collapsed" id="headingOne20" data-toggle="collapse" data-target="#collapseOne20" aria-expanded="true" aria-controls="collapseOne20" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/spiritual">Spiritual Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne20" class="collapse " aria-labelledby="headingOne20" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/spiritual/religion">Religion</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header collapsed" id="headingOne21" data-toggle="collapse" data-target="#collapseOne21" aria-expanded="true" aria-controls="collapseOne21" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/teens">Teens Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne21" class="collapse " aria-labelledby="headingOne21" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/teens/graduation">Graduation</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="border-radius:0px; border-bottom:0px;">
+                        <div class="card-header collapsed" id="headingOne22" data-toggle="collapse" data-target="#collapseOne22" aria-expanded="true" aria-controls="collapseOne22" style="padding:5px 15px; border-radius:0px;">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" style="border-radius:0px; padding:0px;">
+                              <a href="/poems/valentine">Valentine Poems</a>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne22" class="collapse " aria-labelledby="headingOne22" data-parent="#accordion">
+                          <div class="card-body" style="padding:10px;">
+                            <ul class="list-group" style="width: 100%;">
+
+                                <li class="list-group-item active-sc " style="padding:5px 15px; border-radius:0px; border-color: #fff;"><a href="/poems/valentine/romantic">Romantic</a></li>
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                    <!-- CATEGORY FILTER LIST ENDS HERE -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- RIGHT SIDE CONTENT ENDS HERE -->
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

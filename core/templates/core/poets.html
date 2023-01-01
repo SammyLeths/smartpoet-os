@@ -1,0 +1,171 @@
+{% extends "core/layout.html" %}
+{% load static %}
+{% block title %}
+    Poets
+{% endblock %}
+{% block content %}
+
+  <div class="text-center pt-5">
+    <div class="container pt-4">
+      <div class="row my-5 justify-content-center">
+        <div class="col-md-9">
+          <h1>Browse All Featured Poets</h1>
+          <p class="lead text-muted">The great artist represents a solitary figure </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-light pb-5">
+    <div class="container">
+      <div class="row">
+
+        <!-- LEFT SIDEBAR CONTENT BEGINS HERE -->
+
+        <div class="col-md-3 mb-5 pt-4">
+
+          <!-- DESKTOP SIDEBAR NAV BEGINS HERE -->
+
+          <!-- STICKY SIDEBAR WRAPPER BEGINS HERE -->
+
+          <div class="sticky-top mt-5" style="top:100px;">
+            <div class="sidebar-content">
+
+              <!-- NEW BOOTSTRAP 5 SIDEBAR NAV FLUSHED ACCORDION STARTS HERE -->
+
+              <!-- FILTER BY GENDER BEGINS HERE -->
+
+              <div class="accordion mb-4" id="filterByGender">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingfilterByGender">
+                    <button class="accordion-button p-2 {% if poet_gender == 'male' or poet_gender == 'female' %} {% else %} collapsed {% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefilterByGender" aria-expanded="{% if poet_gender == 'male' or poet_gender == 'female' %} true {% else %} false {% endif %}" aria-controls="collapsefilterByGender">
+                      Filter By Gender
+                    </button>
+                  </h2>
+                  <div id="collapsefilterByGender" class="accordion-collapse collapse {% if poet_gender == 'male' or poet_gender == 'female' %} show {% else %} {% endif %}" aria-labelledby="headingfilterByGender" data-bs-parent="#filterByGender">
+                    <div class="accordion-body p-2">
+                      <div class="list-group list-group-flush">
+                        <a href="{% url 'core:poetsGender' poet_gender='male' %}" class="list-group-item list-group-item-action px-2 py-1 {% if poet_gender == 'male' %} active {% else %} {% endif %}" aria-current="true">
+                          Male
+                        </a>
+                        <a href="{% url 'core:poetsGender' poet_gender='female' %}" class="list-group-item list-group-item-action px-2 py-1 {% if poet_gender == 'female' %} active {% else %} {% endif %}">Female</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- FILTER BY GENDER ENDS HERE -->
+
+              <!-- FILTER BY REGION BEGINS HERE -->
+
+              <div class="accordion" id="filterByRegion">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button p-2 {% if poet_region != '' %} {% else %} collapsed {% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefilterByRegion" aria-expanded="{% if poet_region != '' %} true {% else %} false {% endif %}" aria-controls="collapsefilterByRegion">
+                      Filter By Region
+                    </button>
+                  </h2>
+                  <div id="collapsefilterByRegion" class="accordion-collapse collapse {% if poet_region != '' %} show {% else %} {% endif %}" aria-labelledby="headingOne" data-bs-parent="#filterByRegion">
+                    <div class="accordion-body p-2">
+                      <div class="list-group list-group-flush">
+                        <a href="{% url 'core:poetsRegion' poet_region='africa' %}" class="list-group-item list-group-item-action px-2 py-1 {% if poet_region == 'africa' %}active{% else %}{% endif %}" aria-current="true">
+                          Africa
+                        </a>
+                        <a href="{% url 'core:poetsRegion' poet_region='antarctica' %}" class="list-group-item list-group-item-action px-2 py-1 {% if poet_region == 'antarctica' %}active{% else %}{% endif %}">Antarctica</a>
+                        <a href="{% url 'core:poetsRegion' poet_region='asia' %}" class="list-group-item list-group-item-action px-2 py-1 {% if poet_region == 'asia' %}active{% else %}{% endif %}" aria-current="true">
+                          Asia
+                        </a>
+                        <a href="{% url 'core:poetsRegion' poet_region='australia' %}" class="list-group-item list-group-item-action px-2 py-1 {% if poet_region == 'australia' %}active{% else %}{% endif %}">Australia</a>
+                        <a href="{% url 'core:poetsRegion' poet_region='europe' %}" class="list-group-item list-group-item-action px-2 py-1 {% if poet_region == 'europe' %}active{% else %}{% endif %}" aria-current="true">
+                          Europe
+                        </a>
+                        <a href="{% url 'core:poetsRegion' poet_region='north-america' %}" class="list-group-item list-group-item-action px-2 py-1 {% if poet_region == 'north-america' %}active{% else %}{% endif %}">North America </a>
+                        <a href="{% url 'core:poetsRegion' poet_region='south-america' %}" class="list-group-item list-group-item-action px-2 py-1 {% if poet_region == 'south-america' %}active{% else %}{% endif %}">South America  </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- FILTER BY REGION ENDS HERE -->
+
+              <!-- NEW BOOTSTRAP 5 SIDEBAR NAV FLUSHED ACCORDION ENDS HERE -->
+
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- LEFT SIDEBAR CONTENT ENDS HERE -->
+
+        <!-- RIGHT SIDE CONTENT SECTION BEGINS HERE -->
+
+        <div class="col-md-9 pt-sm-5">
+          <div class="row pt-4">
+            <div class="col-md-12">
+
+              <div class="row">
+                <div class="col-md-12">
+
+
+                  <!-- FRONTEND ALL POETS LISTINGS BEGINS HERE -->
+
+
+                  <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                    {% for poet in all_poets %}
+
+                      <div class="col">
+                        <div class="card h-100">
+                          <img src="{% if poet.profile_image %}{{ poet.profile_image.url }} {% else %} {% static 'core/img/profile-image.png' %} {% endif %}" class="card-img-top" alt="{{ poet.first_name }}">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ poet.first_name }} {{ poet.last_name }}</h5>
+                            <p class="card-text">{{ poet.bio|truncatechars:20 }}</p>
+                          </div>
+                          <div class="card-footer bg-white border-0 pb-3">
+                            <a href="{% url 'core:poet' poet.username %}" class="btn btn-outline-dark btn-sm">View Profile</a>
+                            <span class="btn btn-secondary btn-sm float-end" data-bs-toggle="tooltip" data-bs-placement="top" title="Published Posts"> <i class="fas fa-pen fa-sm"></i> {{ poet.total_posts }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    {% empty %}
+
+                      <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">
+                          {% if poet_gender == '' and poet_region == '' %} There are no registered poets yet {% elif poet_gender != '' %} The are no registered poets with the <b>{{ poet_gender|capfirst }}</b> gender yet {% elif poet_region != '' %} The are no registered poets from the <b>{{ poet_region|capfirst }}</b> region yet {% endif %}
+                        </div>
+                      </div>
+
+                    {% endfor %}
+
+                  </div>
+
+                  <!-- FRONTEND ALL POETS LISTINGS ENDS HERE -->
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- FRONTEND ALL POETS PAGINATION NAVIGATION BEGINS HERE -->
+
+            <div class="row py-5">
+              <div class="col-md-12">
+                {% include "core/pagination.html" with page=all_poets %}
+              </div>
+            </div>
+
+          <!-- FRONTEND ALL POETS PAGINATION NAVIGATION ENDS HERE -->
+
+        </div>
+
+        <!-- RIGHT SIDE CONTENT SECTION ENDS HERE -->
+
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}

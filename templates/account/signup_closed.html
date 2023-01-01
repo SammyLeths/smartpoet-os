@@ -1,0 +1,19 @@
+{% extends "members/auth_base.html %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
+
+{% block left_content %}
+
+  <h1>{% trans "Sign Up Closed" %}</h1>
+
+  <p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+
+  <!-- CONTACT SUPPORT BEGINS HERE -->
+
+  {% include "account/snippets/support_button.html" %}
+
+  <!-- CONTACT SUPPORT ENDS HERE-->
+
+{% endblock left_content %}

@@ -1,0 +1,238 @@
+{% extends "members/account_base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+    Edit User
+{% endblock %}
+{% block content %}
+
+  <div class="col-md-9">
+    <div class="row">
+      <div class="col-md-12 pt-5">
+
+        <!-- NOTIFICATIONS SECTION BEGINS -->
+
+        {% include 'core/alerts.html' with page='user_edit'%}
+
+        <!-- NOTIFICATIONS SECTION ENDS -->
+
+        <div class="row mx-1 mb-5">
+          <div class="col-md-12 bg-normal-grey rounded">
+            <div class="row">
+              <div class="col-md-3 col-lg-2">
+                <img src="{% if user_object.profile_image %}{{ user_object.profile_image.url }}{% endif %}" alt="" width="100px" class="float-left" style="border-radius: 100px; margin-top:-25px; margin-bottom:-25px;">
+              </div>
+              <div class="col-md-9 col-lg-10 my-auto">
+                <p class="lead mb-0">You are currently editing <b>{{ user_object.username|capfirst }} Account</b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PERSONAL INFORMATION SECTION BEGINS HERE -->
+
+        <div class="accordion" id="personalInfoTab">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="personalInfoTabHeading">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInfo" aria-expanded="true" aria-controls="collapseInfo">
+                <b>Personal Information</b>
+              </button>
+            </h2>
+            <div id="collapseInfo" class="accordion-collapse collapse show" aria-labelledby="personalInfoTabHeading" data-bs-parent="#personalInfoTab">
+              <div class="accordion-body">
+                <form action="{% url 'members:userPersonalInfo' user_object.id %}" method="POST" enctype="multipart/form-data" id="personalInfoForm">
+                  {% csrf_token %}
+                  {% for field in pi_form %}
+                    <div class="mb-3">
+                      <label class="form-label" for="{{ field.id_for_label }}"><b>{{ field.label }}:</b></label>
+                      <div class="d-block">
+                        {% if field.help_text %}
+                          <small id="help_text{{ field.field.widget.attrs.id }}" class="form-text text-muted">{{ field.help_text|safe }}</small>
+                        {% endif %}
+                      </div>
+                      {% if field.label == 'Region' or field.label == 'Gender' %}
+                        {% render_field field class="form-select" %}
+                      {% elif field.label == 'Profile image' %}
+                        <span>Current Image:{% if user_object.profile_image == '' %} None {% endif %}</span><br>
+                        <img src="{% if user_object.profile_image %}{{ user_object.profile_image.url }}{% endif %}" width="150px" class="pb-2">
+                        {{ field }}
+                      {% elif field.label == 'Cover image' %}
+                        <span>Current Image:{% if user_object.cover_image == None %} None {% endif %}</span><br>
+                        <img src="{% if user_object.cover_image %}{{ user_object.cover_image.url }}{% endif %}" width="350px" class="pb-2">
+                        {{ field }}
+                      {% else %}
+                        {{ field }}
+                      {% endif %}
+                      <div class="d-block">
+                        <ul class="errors list-unstyled pl-0 mb-0">
+                          {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  {% endfor %}
+                  <div class="mb-3">
+                    <input class="btn btn-dark btn-sm" id="submit" name="submit" type="submit" value="Update">
+                    <a class="btn btn-primary btn-sm float-end text-white" id="editPI" role="button">Edit</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PERSONAL INFORMATION SECTION ENDS -->
+
+
+        <!-- EDUCATION HISTORY SECTION BEGINS -->
+
+        <div class="accordion mt-5" id="educationTab">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="educationTabHeading">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEducation" aria-expanded="false" aria-controls="collapseEducation">
+                <b>Education History</b>
+              </button>
+            </h2>
+            <div id="collapseEducation" class="accordion-collapse collapse" aria-labelledby="educationTabHeading" data-bs-parent="#educationTab">
+              <div class="accordion-body">
+                <form action="{% url 'members:userEducationHistory' user_object.id %}" method="POST" id="edHistoryForm">
+                  {% csrf_token %}
+                  {% for field in eh_form %}
+                    <div class="mb-3">
+                      <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                      <div class="d-block">
+                        {% if field.help_text %}
+                          <small id="help_text{{ field.field.widget.attrs.id }}" class="form-text text-muted">{{ field.help_text|safe }}</small>
+                        {% endif %}
+                      </div>
+                      {{ field }}
+                      <div class="d-block">
+                        <ul class="errors list-unstyled pl-0 mb-0">
+                          {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  {% endfor %}
+                  <div class="mb-3">
+                    <input class="btn btn-dark btn-sm" id="submit" name="submit" type="submit" value="Update">
+                    <a class="btn btn-primary btn-sm float-end text-white" id="editEH" role="button">Edit</a>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDUCATION HISTORY SECTION ENDS -->
+
+        <!-- SOCIAL PROFILES SECTION BEGINS HERE -->
+
+        <div class="accordion mt-5" id="socialTab">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="socialTabHeading">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocial" aria-expanded="false" aria-controls="collapseSocial">
+                <b>Social Profiles</b>
+              </button>
+            </h2>
+            <div id="collapseSocial" class="accordion-collapse collapse" aria-labelledby="socialTabHeading" data-bs-parent="#socialTab">
+              <div class="accordion-body pt-4">
+                <form action="{% url 'members:userSocialProfile' user_object.id %}" method="POST" id="socialProfileForm">
+                  {% csrf_token %}
+                  {% for field in sp_form %}
+                    <div class="mb-4">
+                      <div class="d-block">
+                        {% if field.help_text %}
+                          <small id="help_text{{ field.field.widget.attrs.id }}" class="form-text text-muted">{{ field.help_text|safe }}</small>
+                        {% endif %}
+                      </div>
+                      <div class="input-group">
+                        <span class="input-group-text"><i class="{{ field.field.widget.attrs.ico }}"></i></span>
+                        {{ field }}
+                      </div>
+                      <div class="d-block">
+                        <ul class="errors list-unstyled pl-0 mb-0">
+                          {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  {% endfor %}
+                  <div class="mb-3">
+                    <input class="btn btn-dark btn-sm" id="submit" name="submit" type="submit" value="Update">
+                    <a class="btn btn-primary btn-sm float-end text-white" id="editSP" role="button">Edit</a>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOCIAL PROFILES SECTION ENDS HERE -->
+
+        <!-- USER SETTINGS SECTION BEGINS -->
+
+        <div class="accordion mt-5" id="settingsTab">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="settingsTabHeading">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSettings" aria-expanded="false" aria-controls="collapseSettings">
+                <b>User Settings</b>
+              </button>
+            </h2>
+            <div id="collapseSettings" class="accordion-collapse collapse" aria-labelledby="settingsTabHeading" data-bs-parent="#settingsTab">
+              <div class="accordion-body">
+                <form action="{% url 'members:userSettings' user_object.id %}" method="POST" id="userSettingsForm" disabled>
+                  {% csrf_token %}
+
+                    <div class="mb-3">
+                      <label class="form-label" for="{{ us_form.role.id_for_label }}"><b>{{ us_form.role.label }}:</b></label>
+                      {% if us_form.role.help_text %}
+                        <small id="help_text{{ us_form.role.widget.attrs.id }}" class="form-text text-muted">{{ us_form.role.help_text|safe }}</small>
+                      {% endif %}
+                      {{ us_form.role }}
+                      <ul class="errors list-unstyled pl-0 mb-0">
+                        {% for error in us_form.role.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    <div class="mb-3">
+                      <p class="mb-1"><b>Is Active</b></p>
+                      {% if us_form.is_active.help_text %}
+                        <small id="help_text{{ us_form.is_active.field.widget.attrs.id }}" class="form-text text-muted">{{ us_form.is_active.help_text|safe }}</small>
+                      {% endif %}
+                      <div class="form-check">
+                        {{ us_form.is_active }}
+                        <label for="{{ us_form.is_active.id_for_label }}" class="form-check-label">{{ us_form.is_active.field.widget.attrs.placeholder|safe }}</label>
+                      </div>
+                      <ul class="errors list-unstyled pl-0 mb-0">
+                        {% for error in us_form.is_active.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+
+                  <div class="mb-3">
+                    <input class="btn btn-dark btn-sm" id="submit" name="submit" type="submit" value="Update">
+                    <a class="btn btn-primary btn-sm float-end text-white" id="editUS" role="button">Edit</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- USER SETTINGS SECTION ENDS -->
+
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

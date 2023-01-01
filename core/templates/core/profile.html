@@ -1,0 +1,217 @@
+{% extends "core/profile_base.html" %}
+{% load static %}
+{% block title %}
+    Poet Profile Page
+{% endblock %}
+{% block content %}
+
+  <div class="col-md-9 pb-5 px-4">
+    <div class="row">
+      <div class="col-md-12 pt-5">
+        <div class="row mb-5 mt-2">
+          <div class="col-md-12">
+            <h2>About {{ poet.first_name }} {{ poet.last_name }}</h2>
+            <hr class="mb-4">
+            <p>{{ poet.bio|safe }}</p>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col-md-12">
+            <h2>Poems by {{ poet.first_name }} {{ poet.last_name }}</h2>
+            <hr class="mb-5">
+            <div class="row">
+              <div class="col-md-12">
+
+                <!-- FRONTEND LISTINGS OF ALL POETS POEMS BEGINS HERE-->
+
+                  <div class="row row-cols-1 row-cols-md-2 g-4">
+
+                    {% for post in poet_posts %}
+
+                      <div class="col">
+                        <div class="card h-100">
+                          <img src="{% if post.post_image %}{{ post.post_image.url }}{% endif %}" class="card-img-top" alt="{{ post.title }}">
+                          <div class="card-body pb-0">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <img src="{% if post.author.profile_image %}{{ post.author.profile_image.url }}{% endif %}" class="mx-auto rounded-circle d-block" width="60px" style="margin-top:-50px;">
+                                <p class="text-center"> <a href="{% url 'core:poet' post.author.username %}" class="link-style text-dark" style="text-decoration:none;">{{ post.author.username|capfirst }}</a></p>
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                              <div class="col-6 col-md-8">
+                                <span class=""><small>{{ post.published_date }}</small></span>
+                              </div>
+                              <div class="col-6 col-md-4">
+
+                                <span class="share float-end align-bottom"><i class="fas fa-share-alt-square fa-lg text-secondary" data-bs-container="body" title="Share Poem" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="
+                                  <div class='list-group list-group-flush'>
+                                    <a href='https://www.facebook.com/sharer/sharer.php?u={{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'core:poem' post.slug %}' target='_blank' class='list-group-item list-group-item-action px-2 py-1' aria-current='true'>
+                                      <i class='fab fa-facebook fa-sm text-primary'></i> Facebook
+                                    </a>
+                                    <a href='https://twitter.com/share?url={{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'core:poem' post.slug %}&text={{ post.title }}' target='_blank' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-twitter-square fa-sm text-primary'></i> Twitter</a>
+                                    <a href='https://www.linkedin.com/shareArticle?url={{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'core:poem' post.slug %}&title={{ post.title }}' target='_blank' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-linkedin fa-sm text-primary'></i> Linkedin</a>
+                                    <a href='https://api.whatsapp.com/send?text={{ post.title }} {{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'core:poem' post.slug %}' target='_blank' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-whatsapp fa-sm text-primary'></i> Whatsapp</a>
+                                  </div>" data-bs-html="true"></i>
+                                </span>
+
+                              </div>
+                            </div>
+                            <h4 class="card-title"><a href="{% url 'core:poem' post.slug %}" class="text-dark">{{ post.title }}</a></h4>
+                            <p class="card-text">{{ post.content|safe|striptags|truncatechars:75 }}</p>
+
+                          </div>
+                          <div class="card-footer py-3 bg-white border-0">
+
+                            <div class="row">
+                              <div class="col-md-12">
+                                <p class="float-start" data-bs-toggle="tooltip" data-bs-placement="top" title="Category"><i class="fas fa-folder fa-sm text-muted"></i> <a href="{% url 'core:poemsCategory' post.category.slug %}" class="text-muted link-style">{{ post.category }}</a></p>
+                                <p class="float-end" data-bs-toggle="tooltip" data-bs-placement="top" title="Sub Category"><i class="far fa-folder-open fa-sm text-muted"></i> <a href="{% url 'core:poemsSubCategory' post.category.slug post.sub_category.slug %}" class="text-muted link-style">{{ post.sub_category }}</a></p>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-12">
+
+                                <div class="row">
+                                  <div class="col-md-12 pt-3">
+                                    <div class="list-group list-group-horizontal justify-content-center ">
+                                      <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Vote Up">
+                                        <ul class="list-inline mb-0">
+                                          <li class="list-inline-item me-0">
+                                            <i data-id="{{ post.id }}" id="post-upvote-{{ post.id }}" class="upvoted {% if not request.user in post.upvotes.all %} far {% else %} fas {% endif %} fa-caret-square-up fa-sm" {% if not request.user in post.upvotes.all %} data-is_upvoted="no" {% else %} data-is_upvoted="yes" {% endif %}></i>
+                                          </li>
+                                          <li class="list-inline-item">
+                                            <span id="post-upvote-count-{{ post.id }}">{{ post.upvotes.count }}</span>
+                                          </li>
+                                        </ul>
+                                      </a>
+                                      <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Vote Down">
+                                        <ul class="list-inline mb-0">
+                                          <li class="list-inline-item me-0">
+                                            <i data-id="{{ post.id }}" id="post-downvote-{{ post.id }}" class="downvoted {% if not request.user in post.downvotes.all %} far {% else %} fas {% endif %} fa-caret-square-down fa-sm" {% if not request.user in post.downvotes.all %} data-is_downvoted="no" {% else %} data-is_downvoted="yes" {% endif %}></i>
+                                          </li>
+                                          <li class="list-inline-item">
+                                            <span id="post-downvote-count-{{ post.id }}">{{ post.downvotes.count }}</span>
+                                          </li>
+                                        </ul>
+                                      </a>
+                                      <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Save / Bookmark">
+                                        <ul class="list-inline mb-0">
+                                          <li class="list-inline-item me-0">
+                                            <i data-id="{{ post.id }}" id="post-bookmark-{{ post.id }}" class="bookmarked {% if not request.user in post.bookmarks.all %} far {% else %} fas {% endif %} fa-bookmark fa-sm" {% if not request.user in post.bookmarks.all %} data-is_bookmarked="no" {% else %} data-is_bookmarked="yes" {% endif %}></i>
+                                          </li>
+                                          <li class="list-inline-item">
+                                            <span id="post-bookmark-count-{{ post.id }}"> {{ post.bookmarks.count }}</span>
+                                          </li>
+                                        </ul>
+                                      </a>
+                                      <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Like / Unlike">
+                                        <ul class="list-inline mb-0">
+                                          <li class="list-inline-item me-0">
+                                            <i data-id="{{ post.id }}" id="post-like-{{ post.id }}" class="liked {% if not request.user in post.likes.all %} far {% else %} fas {% endif %} fa-heart fa-sm" {% if not request.user in post.likes.all %} data-is_liked="no" {% else %} data-is_liked="yes" {% endif %}></i>
+                                          </li>
+                                          <li class="list-inline-item">
+                                            <span id="post-count-{{ post.id }}"> {{ post.likes.count }}</span>
+                                          </li>
+                                        </ul>
+                                      </a>
+                                      <a href="{% url 'core:poem' post.slug %}#disqus_thread" class="list-group-item list-group-item-action px-2 py-1 pm text-center" data-bs-toggle="tooltip" data-bs-placement="top" title="Comments">
+                                        <ul class="list-inline mb-0">
+                                          <li class="list-inline-item me-0">
+                                            <i class="fas fa-comment fa-sm"></i>
+                                          </li>
+                                          <li class="list-inline-item">
+                                            <span class="disqus-comment-count" data-disqus-identifier="{{ post.slug }}"></span>
+                                          </li>
+                                        </ul>
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    {% empty %}
+
+                      <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">
+                          {{ poet.username|capfirst }} do not have any poems published yet
+                        </div>
+                      </div>
+
+                    {% endfor %}
+
+                  </div>
+              </div>
+            </div>
+
+            <!-- FRONTEND LISTINGS OF ALL POETS POEMS ENDS HERE -->
+
+            <!-- POET POEMS PAGINATION NAVIGATION BEGINS HERE -->
+
+            <div class="row py-5">
+              <div class="col-md-12">
+                {% include "core/pagination.html" with page=poet_posts %}
+              </div>
+            </div>
+
+            <!-- POET POEMS PAGINATION NAVIGATION ENDS HERE -->
+
+            <!-- MOBILE SECTION FOR POETS FILTERS BEGINS HERE -->
+
+            <!--<div class="row d-block d-sm-none">
+              <div class="col-md-12">
+                <div class="accordion" id="collectionTab">
+                  <div class="card mt-3 border rounded">
+                    <div class="card-header header-sm" id="headingOne">
+                      <h2 class="mb-0">
+                        <button class="btn btn-block text-left text-md" type="button" data-toggle="collapse" data-target="#collapseCollection" aria-expanded="true" aria-controls="collapseCollection">
+                          <i class="fa fa-angle-right"></i>Similar Poets
+                        </button>
+                      </h2>
+                    </div>
+
+                    <div id="collapseCollection" class="collapse show" aria-labelledby="headingOne" data-parent="#collectionTab">
+                      <div class="card-body body-sm">
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item active "><i class="fas fa-sm fa-user text-primary mr-2"></i><a href="/dannylanding">Dannylanding</a></li>
+
+                            <li class="list-group-item active "><i class="fas fa-sm fa-user text-primary mr-2"></i><a href="/dapson">Dapson</a></li>
+
+                            <li class="list-group-item active "><i class="fas fa-sm fa-user text-primary mr-2"></i><a href="/Friedrich.Hagenes20">Friedrich.hagenes20</a></li>
+
+                            <li class="list-group-item active  sb-active "><i class="fas fa-sm fa-user text-primary mr-2"></i><a href="/sammyleths">Sammyleths</a></li>
+
+                            <li class="list-group-item active "><i class="fas fa-sm fa-user text-primary mr-2"></i><a href="/Sammy_Kessler1">Sammy_kessler1</a></li>
+
+                            <li class="list-group-item active "><i class="fas fa-sm fa-user text-primary mr-2"></i><a href="/stanley">Stanley</a></li>
+
+                            <li class="list-group-item active "><i class="fas fa-sm fa-user text-primary mr-2"></i><a href="/stevie">Stevie</a></li>
+
+                            <li class="list-group-item active "><i class="fas fa-sm fa-user text-primary mr-2"></i><a href="/Stevie76">Stevie76</a></li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>-->
+
+            <!-- MOBILE SECTION FOR POETS FILTERS ENDS HERE -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,304 @@
+{% extends "core/layout.html" %}
+{% load static %}
+{% block meta %}
+  <!-- META DATA FOR SHARING -->
+
+  <meta property="og:url"                content="{% url 'core:poem' poem.slug %}" />
+  <meta property="og:type"               content="article" />
+  <meta property="og:title"              content="{{ poem.title }}" />
+  <meta property="og:description"        content="{{ poem.content|safe|striptags|truncatechars:75 }}" />
+  <meta property="og:image"              content="{% if poem.post_image %} {{ poem.post_image.url }} {% else %} {% static 'posts/img/post_image/post.jpg' %} {% endif %}" />
+
+{% endblock %}
+{% block title %}
+    Poem
+{% endblock %}
+{% block content %}
+
+  <!-- POEM HEADING SECTION BEGINS HERE -->
+
+  <div class="text-center bg-white py-5">
+    <div class="container pt-5">
+      <div class="row my-5 justify-content-center">
+        <div class="col-md-9">
+          <h1>{{ poem.heading }}</h1>
+          <p class="lead text-muted">{{ poem.intro }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POEM HEADING SECTION ENDS HERE -->
+
+  <!-- POEM META DETAILS BREADCRUMB SECTION BEGINS HERE -->
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 py-3 bg-gray">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center mb-1">
+            <li class="breadcrumb-item">Author: <a href="{% url 'core:poet' poem.author.username %}" class="text-dark-gray">{{ poem.author.username }}</a></li>
+            <li class="breadcrumb-item">Category: <a href="{% url 'core:poemsCategory' poem.category.slug %}" class="text-dark-gray">{{ poem.category.name }}</a></li>
+            <li class="breadcrumb-item">Sub Category: <a href="{% url 'core:poemsSubCategory' poem.category.slug poem.sub_category.slug %}" class="text-dark-gray">{{ poem.sub_category.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page" >Published: {{ poem.published_date }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- POEM META DETAILS BREADCRUMB SECTION ENDS HERE -->
+
+  <!-- POEM MAIN CONTENT SECTION BEGINS HERE -->
+
+  <div class="py-5 bg-light">
+    <div class="container">
+      <div class="row">
+
+        <!-- POEM MAIN META CONTENT LEFT SECTION BEGINS HERE -->
+
+        <div class="col-12 col-md-1">
+          <div class="sticky-top d-none d-sm-block mt-5" style="top:100px;">
+            <div class="sidebar-content">
+              <div class="list-group">
+                <a class="list-group-item list-group-item-action text-center pointer px-2 py-2 pm">
+                  <span class="text-center"><i class="fas fa-share-alt-square fa-2x text-secondary" data-bs-container="body" title="Share Poem" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="
+                    <div class='list-group list-group-flush'>
+                      <a href='https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}' target='_blank' class='list-group-item list-group-item-action px-2 py-1' aria-current='true'><i class='fab fa-facebook fa-sm text-primary'></i> Facebook</a>
+                      <a href='https://twitter.com/share?url={{ request.build_absolute_uri }}&text={{ poem.title }}' target='_blank' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-twitter-square fa-sm text-primary'></i> Twitter</a>
+                      <a href='https://www.linkedin.com/shareArticle?url={{ request.build_absolute_uri }}&title={{ poem.title }}' target='_blank' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-linkedin fa-sm text-primary'></i> Linkedin</a>
+                      <a href='https://api.whatsapp.com/send?text={{ poem.title }} {{ request.build_absolute_uri }}' target='_blank' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-whatsapp fa-sm text-primary'></i> Whatsapp</a>
+                    </div>" data-bs-html="true"></i>
+                  </span>
+                </a>
+                <a href="{% url 'core:poem' poem.slug %}#disqus_thread" class="list-group-item list-group-item-action px-2 py-1 pm text-center" data-bs-toggle="tooltip" data-bs-placement="right" title="Comments">
+                  <ul class="list-inline mb-0">
+                    <li class="list-inline-item me-0">
+                      <i class="fas fa-comment fa-sm"></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <span class="disqus-comment-count" data-disqus-identifier="{{ poem.slug }}"></span>
+                    </li>
+                  </ul>
+                </a>
+                <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer" data-bs-toggle="tooltip" data-bs-placement="right" title="Like / Unlike">
+                  <ul class="list-inline mb-0">
+                    <li class="list-inline-item me-0">
+                      <i data-id="{{ poem.id }}" id="post-like-{{ poem.id }}" class="liked {% if not request.user in poem.likes.all %} far {% else %} fas {% endif %} fa-heart fa-sm" {% if not request.user in poem.likes.all %} data-is_liked="no" {% else %} data-is_liked="yes" {% endif %}></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <span id="post-count-{{ poem.id }}"> {{ poem.likes.count }}</span>
+                    </li>
+                  </ul>
+                </a>
+                <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer" data-bs-toggle="tooltip" data-bs-placement="right" title="Save / Bookmark">
+                  <ul class="list-inline mb-0">
+                    <li class="list-inline-item me-0">
+                      <i data-id="{{ poem.id }}" id="post-bookmark-{{ poem.id }}" class="bookmarked {% if not request.user in poem.bookmarks.all %} far {% else %} fas {% endif %} fa-bookmark fa-sm" {% if not request.user in poem.bookmarks.all %} data-is_bookmarked="no" {% else %} data-is_bookmarked="yes" {% endif %}></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <span id="post-bookmark-count-{{ poem.id }}"> {{ poem.bookmarks.count }}</span>
+                    </li>
+                  </ul>
+                </a>
+                <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer" data-bs-toggle="tooltip" data-bs-placement="right" title="Vote Up">
+                  <ul class="list-inline mb-0">
+                    <li class="list-inline-item me-0">
+                      <i data-id="{{ poem.id }}" id="post-upvote-{{ poem.id }}" class="upvoted {% if not request.user in poem.upvotes.all %} far {% else %} fas {% endif %} fa-caret-square-up fa-sm" {% if not request.user in poem.upvotes.all %} data-is_upvoted="no" {% else %} data-is_upvoted="yes" {% endif %}></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <span id="post-upvote-count-{{ poem.id }}">{{ poem.upvotes.count }}</span>
+                    </li>
+                  </ul>
+                </a>
+                <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer" data-bs-toggle="tooltip" data-bs-placement="right" title="Vote Down">
+                  <ul class="list-inline mb-0">
+                    <li class="list-inline-item me-0">
+                      <i data-id="{{ poem.id }}" id="post-downvote-{{ poem.id }}" class="downvoted {% if not request.user in poem.downvotes.all %} far {% else %} fas {% endif %} fa-caret-square-down fa-sm" {% if not request.user in poem.downvotes.all %} data-is_downvoted="no" {% else %} data-is_downvoted="yes" {% endif %}></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <span id="post-downvote-count-{{ poem.id }}">{{ poem.downvotes.count }}</span>
+                    </li>
+                  </ul>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- POEM MAIN META CONTENT LEFT SECTION ENDS HERE -->
+
+        <!-- POEM MAIN - MIDDLE CONTENT LEFT SECTION BEGINS HERE -->
+
+        <div class="col-12 col-md-8 py-5">
+          <div class="row">
+            <div class="col-md-12">
+              <img src="{% if poem.post_image %} {{ poem.post_image.url }} {% else %} {% static 'posts/img/post_image/post.jpg' %} {% endif %}" class="img-fluid mb-5">
+              <h2 class="pb-3">{{ poem.title }}</h2>
+              <div class="d-block">
+                {{ poem.content|safe }}
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-5">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card" style="max-width: 100%;">
+                <div class="row g-0">
+                  <div class="col-md-3">
+                    <img src="{{ poem.author.profile_image.url }}" alt="{{ poem.author.username }}" class="img-fluid">
+                  </div>
+                  <div class="col-md-9">
+                    <div class="card-body">
+                      <h5 class="card-title"><a href="{% url 'core:poet' poem.author.username %}" class="text-dark">{{ poem.author.first_name }} {{ poem.author.last_name }}</a></h5>
+                      <p class="card-text">{{ poem.author.bio|safe }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-5">
+
+          <div class="row">
+            <div class="col-md-12">
+              <h2>Comments</h2>
+
+              {% include 'posts/comments.html' with url=poem.slug %}
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- POEM MAIN CONTENT LEFT SECTION ENDS HERE -->
+
+        <!-- POEM MAIN CONTENT RIGHT SECTION BEGINS HERE -->
+
+        <div class="col-12 col-md-3">
+          <div class="sticky-top mt-5 st">
+            <div class="sidebar-content">
+
+              <h2 class="d-block d-sm-none mb-4">Browse By Category</h2>
+
+              <!-- NEW BOOTSTRAP 5 SIDEBAR NAV FLUSHED ACCORDION STARTS HERE -->
+
+              <div class="accordion" id="accordionExample">
+
+                {% for parent_category in parent_categories %}
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne{{ parent_category.id }}">
+                      <button class="accordion-button p-2 {% if cat_slug == parent_category.slug %} {% else %} collapsed {% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{ parent_category.id }}" aria-expanded="{% if cat_slug == parent_category.slug %} true {% else %} false {% endif %}" aria-controls="collapseOne{{ parent_category.id }}">
+                        <a href="{% url 'core:poemsCategory' parent_category.slug %}" class="link-style text-dark"><b>{{ parent_category.name }} Poems</b></a>
+                      </button>
+                    </h2>
+                    <div id="collapseOne{{ parent_category.id }}" class="accordion-collapse collapse {% if cat_slug == parent_category.slug %} show {% else %} {% endif %}" aria-labelledby="headingOne{{ parent_category.id }}" data-bs-parent="#accordionExample">
+                      <div class="accordion-body p-2">
+
+                        <div class="list-group list-group-flush cl">
+
+                          {% for category in parent_category.parentcategory.all %}
+
+                          <a href="{% url 'core:poemsSubCategory' parent_category.slug category.slug %}" class="list-group-item list-group-item-action px-2 py-1 {% if sub_cat_slug == category.slug %} active {% endif %}" aria-current="true">
+                            {{ category.name }} Poems
+                          </a>
+
+                          {% endfor %}
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+
+              </div>
+
+              <!-- NEW BOOTSTRAP 5 SIDEBAR NAV FLUSHED ACCORDION ENDS HERE -->
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- POEM MAIN CONTENT RIGHT SECTION ENDS HERE -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY BOTTOM PEM META NAV BEGINS HERE -->
+
+  <div class="fixed-bottom row d-block d-sm-none p-2 bg-gray" style="bottom:0px;">
+    <div class="col-md-12">
+      <div class="list-group list-group-horizontal justify-content-center">
+        <a class="list-group-item list-group-item-action text-center pointer px-2 py-1 pm my-auto">
+          <span class="text-center"><i class="fas fa-share-alt-square fa-lg text-secondary" data-bs-container="body" title="Share Poem" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="
+            <div class='list-group list-group-flush'>
+              <a href='#' class='list-group-item list-group-item-action px-2 py-1' aria-current='true'><i class='fab fa-facebook fa-sm text-primary'></i> Facebook</a>
+              <a href='#' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-twitter-square fa-sm text-primary'></i> Twitter</a>
+              <a href='#' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-linkedin fa-sm text-primary'></i> Linkedin</a>
+              <a href='#' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-instagram fa-sm text-primary'></i> Instagram</a>
+            </div>" data-bs-html="true"></i>
+          </span>
+        </a>
+        <a href="{% url 'core:poem' poem.slug %}#disqus_thread" class="list-group-item list-group-item-action px-2 py-1 pm text-center my-auto" data-bs-toggle="tooltip" data-bs-placement="top" title="Comments">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item me-0">
+              <i class="fas fa-comment fa-sm"></i>
+            </li>
+            <li class="list-inline-item">
+              <span class="disqus-comment-count" data-disqus-identifier="{{ poem.slug }}"></span>
+            </li>
+          </ul>
+        </a>
+        <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer my-auto" data-bs-toggle="tooltip" data-bs-placement="top" title="Like / Unlike">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item me-0">
+              <i data-id="{{ poem.id }}" id="post-like-{{ poem.id }}" class="liked {% if not request.user in poem.likes.all %} far {% else %} fas {% endif %} fa-heart fa-sm" {% if not request.user in poem.likes.all %} data-is_liked="no" {% else %} data-is_liked="yes" {% endif %}></i>
+            </li>
+            <li class="list-inline-item">
+              <span id="post-count-{{ poem.id }}"> {{ poem.likes.count }}</span>
+            </li>
+          </ul>
+        </a>
+        <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer my-auto" data-bs-toggle="tooltip" data-bs-placement="top" title="Save / Bookmark">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item me-0">
+              <i data-id="{{ poem.id }}" id="post-bookmark-{{ poem.id }}" class="bookmarked {% if not request.user in poem.bookmarks.all %} far {% else %} fas {% endif %} fa-bookmark fa-sm" {% if not request.user in poem.bookmarks.all %} data-is_bookmarked="no" {% else %} data-is_bookmarked="yes" {% endif %}></i>
+            </li>
+            <li class="list-inline-item">
+              <span id="post-bookmark-count-{{ poem.id }}"> {{ poem.bookmarks.count }}</span>
+            </li>
+          </ul>
+        </a>
+        <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer my-auto" data-bs-toggle="tooltip" data-bs-placement="top" title="Vote Up">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item me-0">
+              <i data-id="{{ poem.id }}" id="post-upvote-{{ poem.id }}" class="upvoted {% if not request.user in poem.upvotes.all %} far {% else %} fas {% endif %} fa-caret-square-up fa-sm" {% if not request.user in poem.upvotes.all %} data-is_upvoted="no" {% else %} data-is_upvoted="yes" {% endif %}></i>
+            </li>
+            <li class="list-inline-item">
+              <span id="post-upvote-count-{{ poem.id }}">{{ poem.upvotes.count }}</span>
+            </li>
+          </ul>
+        </a>
+        <a class="list-group-item list-group-item-action px-2 py-1 pm text-center pointer my-auto" data-bs-toggle="tooltip" data-bs-placement="top" title="Vote Down">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item me-0">
+              <i data-id="{{ poem.id }}" id="post-downvote-{{ poem.id }}" class="downvoted {% if not request.user in poem.downvotes.all %} far {% else %} fas {% endif %} fa-caret-square-down fa-sm" {% if not request.user in poem.downvotes.all %} data-is_downvoted="no" {% else %} data-is_downvoted="yes" {% endif %}></i>
+            </li>
+            <li class="list-inline-item">
+              <span id="post-downvote-count-{{ poem.id }}">{{ poem.downvotes.count }}</span>
+            </li>
+          </ul>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY BOTTOM PEM META NAV ENDS HERE -->
+
+  {% endblock %}

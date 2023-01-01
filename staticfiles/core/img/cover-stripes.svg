@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="2000px"
+	 height="1300px" viewBox="0 0 2000 1300" enable-background="new 0 0 2000 1300" xml:space="preserve">
+<g id="Spicchi_sotto_e_lato">
+	<g>
+		<defs>
+			<rect id="SVGID_1_" width="2000" height="1300"/>
+		</defs>
+		<clipPath id="SVGID_2_">
+			<use xlink:href="#SVGID_1_"  overflow="visible"/>
+		</clipPath>
+		<path clip-path="url(#SVGID_2_)" fill="#6C757D" d="M1947.425,0c-151.814,660.834-741.918,1153.57-1446.9,1153.57
+			C324.842,1153.57,156,1122.945,0,1066.77V1300h2000V0H1947.425z"/>
+		<path clip-path="url(#SVGID_2_)" fill="#CCCCCC" d="M526.042-3723.397c-1367.291,0-2475.695,1111.698-2475.695,2483.049
+			c0,1371.359,1108.404,2483.056,2475.695,2483.056S3001.737,131.011,3001.737-1240.349
+			C3001.737-2611.7,1893.333-3723.397,526.042-3723.397z M500.4,1153.57c-820.1,0-1484.921-666.796-1484.921-1489.335
+			c0-822.536,664.821-1489.334,1484.921-1489.334S1985.32-1158.301,1985.32-335.765C1985.32,486.774,1320.501,1153.57,500.4,1153.57
+			z"/>
+		<path clip-path="url(#SVGID_2_)" fill="#F3F3F3" d="M512.792-2253.148c-950.197,0-1720.482,772.577-1720.482,1725.593
+			c0,953.025,770.285,1725.599,1720.482,1725.599c950.199,0,1720.481-772.573,1720.481-1725.599
+			C2233.273-1480.571,1462.991-2253.148,512.792-2253.148z M498.548,1151.713c-820.1,0-1484.921-666.796-1484.921-1489.335
+			c0-822.535,664.821-1489.334,1484.921-1489.334c820.101,0,1484.919,666.799,1484.919,1489.334
+			C1983.468,484.917,1318.649,1151.713,498.548,1151.713z"/>
+	</g>
+</g>
+<g id="luna">
+	<g>
+		<defs>
+			<rect id="SVGID_3_" x="3471" y="420" width="2000" height="1000"/>
+		</defs>
+		<clipPath id="SVGID_4_">
+			<use xlink:href="#SVGID_3_"  overflow="visible"/>
+		</clipPath>
+		<path clip-path="url(#SVGID_4_)" fill="#CCCCCC" d="M9654.333,5859c0-2750.939-2064.874-4981-4612.037-4981
+			C2495.139,878,430.259,3108.061,430.259,5859s2064.88,4981,4612.037,4981C7589.459,10840,9654.333,8609.938,9654.333,5859z"/>
+	</g>
+</g>
+<g id="Orizzontale_dark">
+</g>
+<g id="Quadrato1">
+</g>
+<g id="Quadrato2">
+</g>
+<g id="Quadrato3">
+</g>
+<g id="Quadrato4">
+</g>
+<g id="Mobile">
+</g>
+<g id="Tablet">
+</g>
+<g id="Orizzontale_light">
+</g>
+</svg>

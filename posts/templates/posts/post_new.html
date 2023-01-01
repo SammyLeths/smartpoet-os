@@ -1,0 +1,86 @@
+{% extends "members/account_base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+    Create Poems
+{% endblock %}
+{% block content %}
+
+  <div class="col-md-9 pb-5">
+    <div class="row">
+      <div class="col-md-12 pt-5">
+
+        <!-- NOTIFICATIONS SECTION BEGINS -->
+
+        {% include 'core/alerts.html' %}
+
+        <!-- NOTIFICATIONS SECTION ENDS -->
+
+        <!-- PROFILE SETUP COMPLETION NOTIFICATION BEGINS HERE -->
+
+        {% if request.user.status == 'pending profile activation' %}
+
+          {% include 'core/activation_alerts.html' %}
+
+        {% endif %}
+
+        <!-- PROFILE SETUP COMPLETION NOTIFICATION ENDS HERE -->
+
+        <div class="row">
+          <div class="col-md-12">
+            <h2>Add New Poem</h2>
+            <hr>
+            <form id="PostForm" data-subcat-url="{% url 'posts:load_subcategory' %}" method="POST" action="{% url 'posts:postCreate' %}" enctype="multipart/form-data">
+              <fieldset {% if request.user.status == 'pending profile activation' %} disabled {% endif %}>
+                {% csrf_token %}
+                {{ post_form.media }}
+                {% for field in post_form %}
+                  <div class="mb-4">
+                    {% if field.label == 'Comment Notifications' %}
+                      <p class="mb-1"><b>Comment Notifications:</b></p>
+                      <div class="form-check">
+                        {{ field }}
+                        <label for="{{ field.id_for_label }}" class="form-check-label">{{ field.field.widget.attrs.placeholder|safe }}</label>
+                      </div>
+                      <ul class="errors list-unstyled pl-0 mb-0">
+                        {% for error in field.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% elif field.label == 'Terms and Condition' %}
+                      <p class="mb-1"><b>Terms and Condition:</b></p>
+                      <div class="form-check">
+                        {{ field }}
+                        <label for="{{ field.id_for_label }}" class="form-check-label">{{ field.field.widget.attrs.placeholder|safe }}</label>
+                      </div>
+                      <ul class="errors list-unstyled pl-0 mb-0">
+                        {% for error in field.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                      <label class="form-label" for="{{ field.id_for_label }}"><b>{{ field.label }}</b></label>
+                      {% if field.help_text %}
+                        <div id="help_text{{ field.field.widget.attrs.id }}" class="form-text text-muted">{{ field.help_text|safe }}</div>
+                      {% endif %}
+                      {{ field }}
+                      <ul class="errors list-unstyled pl-0 mb-0">
+                        {% for error in field.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+                <div class="mb-3 pt-4">
+                  <input class="btn btn-primary btn-sm" id="submit" name="submit" type="submit" value="Submit New Poem">
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% load smartpoet_tags %}
+
+<!-- ALL POSTS PAGINATION NAVIGATION BEGINS HERE -->
+
+  <!--<div class="row py-5">
+    <div class="col-md-12">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center float-right">
+          {% if page.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page.previous_page_number }}">Previous</a></li>
+          {% endif %}
+            <li class="page-item"><a class="page-link" href="#">Page {{ page.number }} of {{ page.paginator.num_pages }}</a></li>
+          {% if page.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">Next</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>-->
+
+<!-- ALL POSTS PAGINATION NAVIGATION ENDS HERE -->
+
+<!-- FILTERED PAGINATION WITH PAGE NUMBER LOOP STARTS HERE -->
+<div class="row py-5">
+  <div class="col-md-12">
+    <!--<div class="d-flex flex-column m-auto pagination mt-5">-->
+    <div class="row">
+      <div class="col-4 col-md-3">
+        <nav aria-label="Page navigation">
+          <ul class="pagination pagination-sm pg-grey">
+            <li class="page-item"><a class="page-link" href="#">Page {{ page.number }} of {{ page.paginator.num_pages }}</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-8 col-md-9">
+        <nav aria-label="Page navigation">
+          <ul class="pagination pagination-sm pg-grey justify-content-end">
+            {% if page.has_previous %}
+              <li class="page-item">
+                <a class="page-link"  href="{% filter_url 1 'page' request.GET.urlencode %}">&laquo; First</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="{% filter_url page.previous_page_number 'page' request.GET.urlencode %}">&laquo; Previous</a>
+              </li>
+            {% endif %}
+
+            {% for i in page.paginator.page_range %}
+              {% if page.number == i %}
+                <li class="page-item active"><a class="page-link">{{ i }}</a></li>
+              {% else %}
+                <li class="page-item" ><a class="page-link" href=" {% filter_url i 'page' request.GET.urlencode %}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if page.has_next %}
+              <li class="page-item">
+              <a class="page-link" href="{% filter_url page.next_page_number 'page' request.GET.urlencode %}">Next</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link"  href="{% filter_url page.paginator.num_pages 'page' request.GET.urlencode %}">Last &raquo;</a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!--</div>-->
+  </div>
+</div>
+<!-- FILTERED PAGINATION ENDS HERE -->

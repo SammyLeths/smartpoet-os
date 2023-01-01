@@ -1,0 +1,12 @@
+<div class="row {% if page %} mb-4 {% endif %}">
+    <div class="col-md-12">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{ message|safe }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>

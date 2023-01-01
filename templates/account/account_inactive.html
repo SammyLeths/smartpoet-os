@@ -1,0 +1,21 @@
+{% extends "members/auth_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Account Inactive" %}{% endblock %}
+
+{% block left_content %}
+
+  <h1>{% trans "Account Inactive" %}</h1>
+
+  <p>{% trans "This account is inactive." %}</p>
+
+  <p>Reach out to support to get your account activated.</p>
+
+  <!-- CONTACT SUPPORT BEGINS HERE -->
+
+  {% include "account/snippets/support_button.html" %}
+
+  <!-- CONTACT SUPPORT ENDS HERE-->
+
+{% endblock left_content%}

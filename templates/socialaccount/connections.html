@@ -1,0 +1,94 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+
+{% load socialaccount %}
+
+{% providers_media_js %}
+
+{% block head_title %}{% trans "Account Connections" %}{% endblock %}
+
+{% block left_content %}
+
+  <h2>{% trans "Social Account Connections" %}</h2>
+
+  <!-- NOTIFICATIONS SECTION BEGINS HERE -->
+
+    {% include 'core/alerts.html' %}
+
+  <!-- NOTIFICATIONS SECTION ENDS HERE-->
+
+  {% if form.accounts %}
+
+    <p>{% blocktrans %}You can sign in to your account using any of the following third party accounts:{% endblocktrans %}</p>
+
+
+    <form method="post" action="{% url 'socialaccount_connections' %}">
+
+      {% csrf_token %}
+
+      <fieldset>
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger fade show formerror" role="alert">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
+        <table class="table table-bordered">
+          <tbody class="">
+
+            {% for base_account in form.accounts %}
+              {% with base_account.get_provider_account as account %}
+
+                <tr>
+                  <td>
+                    <div class="form-check ms-2">
+                      <input style="margin-top:8px;" id="id_account_{{ base_account.id }}" class="form-check-input fs-6" type="radio" name="account" value="{{ base_account.id }}">
+                      <label class="form-check-label fs-5" for="id_account_{{ base_account.id }}">
+                        {{ account }}
+                        - <span class="badge {% if account.get_brand.name == 'Google' %} bg-danger {% elif account.get_brand.name == 'Facebook' %} bg-primary {% endif %} socialaccount_provider {{ base_account.provider }} {{ account.get_brand.id }}"> {{account.get_brand.name}}</span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+
+              {% endwith %}
+            {% endfor %}
+
+            <tr>
+              <td>
+                <button class="btn btn-primary btn-sm" type="submit">{% trans 'Remove' %}</button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </fieldset>
+
+    </form>
+
+  {% else %}
+
+    <p>{% trans 'You currently have no social network accounts connected to this account.' %}</p>
+
+  {% endif %}
+
+  <div class="separator py-3">
+    <div class="line"></div>
+    <div class="wrapper">
+       <i class="fas fa-feather-alt fa-lg"></i>
+    </div>
+    <div class="line"></div>
+  </div>
+
+  <h3>{% trans 'Add a 3rd Party Account' %}</h3>
+
+  <p>You can connect any of these social accounts to your Smartpoet account:</p>
+
+  <ul class="socialaccount_providers sacs">
+    {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
+  </ul>
+
+{% endblock left_content %}

@@ -1,0 +1,200 @@
+{% extends "core/layout.html" %}
+{% load static %}
+{% block title %}
+    Poems Category
+{% endblock %}
+{% block content %}
+
+  <div class="text-center pt-5">
+    <div class="container">
+      <div class="row my-5 justify-content-center">
+        <div class="col-md-9">
+          <h1>Browse All Family Poems</h1>
+          <p class="lead text-muted">Heartfelt Poems about the Bonds of Family
+
+Just as the earth goes through seasons, so does a family in the course of time endure seasons. Falling in love, marriage and the birth of a children are times of renewal like Spring. Long pleasant periods of calm are like the feeling of an endless Summer. As we and our children grow older, our leaves start to change. We start to experience Autumn. This may seem like dying but it is only signs of a new phase of life. Crises and hardship are times for the family to stay close together, help each other out and endure the frigid winds of change. This period is akin to Winter. Life is full of seasons and changes which are best experienced with the support of friends and family.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-light pb-5">
+
+    <!-- POEMS BREADCRUMB NAVIGATION BEGINS HERE -->
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 py-3 bg-gray">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center mb-1">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="#">Poem</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Family</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- BELOW INTRO CONTENT BEGINS HERE -->
+
+    <div class="container">
+      <div class="row">
+
+        <!-- LEFT SIDEBAR CONTENT BEGINS HERE -->
+
+        <div class="col-md-3 d-none d-sm-block">
+
+          <!-- DESKTOP SIDEBAR NAV BEGINS HERE -->
+
+          <!-- STICKY SIDEBAR WRAPPER BEGINS HERE -->
+
+          <div class="sticky-top d-none d-sm-block mt-5" style="top:100px;">
+            <div class="sidebar-content">
+
+              <!-- NEW BOOTSTRAP 5 SIDEBAR NAV FLUSHED ACCORDION STARTS HERE -->
+
+              <div class="accordion" id="accordionExample">
+
+                {% for parent_category in parent_categories %}
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne{{ parent_category.id }}">
+                      <button class="accordion-button p-2 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{ parent_category.id }}" aria-expanded="false" aria-controls="collapseOne{{ parent_category.id }}">
+                        <a href="{% url 'core:poemsCategory' parent_category.slug %}" class="link-style text-dark"><b>{{ parent_category.name }}</b></a>
+                      </button>
+                    </h2>
+                    <div id="collapseOne{{ parent_category.id }}" class="accordion-collapse collapse" aria-labelledby="headingOne{{ parent_category.id }}" data-bs-parent="#accordionExample">
+                      <div class="accordion-body p-2">
+
+                        <div class="list-group list-group-flush cl">
+
+                          {% for category in parent_category.parentcategory.all %}
+
+                          <a href="{% url 'core:poemsSubCategory' parent_category.slug category.slug %}" class="list-group-item list-group-item-action px-2 py-1" aria-current="true">
+                            {{ category.name }}
+                          </a>
+
+                          {% endfor %}
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+
+              </div>
+
+              <!-- NEW BOOTSTRAP 5 SIDEBAR NAV FLUSHED ACCORDION ENDS HERE -->
+
+            </div>
+          </div>
+
+          <!-- STICKY SIDEBAR WRAPPER ENDS HERE -->
+
+          <!-- DESKTOP SIDEBAR NAV ENDS HERE -->
+
+        </div>
+
+        <!-- LEFT SIDEBAR CONTENT ENDS HERE -->
+
+        <!-- RIGHT SIDE CONTENT BEGINS HERE -->
+
+        <div class="col-md-9 pt-5">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+
+                  <!-- FRONTEND ALL POEMS LISTINGS BEGINS HERE -->
+
+                  <div class="row row-cols-1 row-cols-md-2 g-4">
+                    {% for post in all_posts %}
+                      <div class="col">
+                        <div class="card h-100">
+                          <img src="{% if post.post_image %}{{ post.post_image.url }}{% endif %}" class="card-img-top" alt="{{ post.title }}">
+                          <div class="card-body pb-0">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <img src="{% if post.author.profile_image %}{{ post.author.profile_image.url }}{% endif %}" class="mx-auto rounded-circle d-block" width="60px" style="margin-top:-50px;">
+                                <p class="text-center"> <a href="{% url 'core:poet' post.author.username %}" class="link-style text-dark" style="text-decoration:none;">{{ post.author.username|capfirst }}</a></p>
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                              <div class="col-6 col-md-8">
+                                <span class=""><small>{{ post.published_date }}</small></span>
+                              </div>
+                              <div class="col-6 col-md-4">
+
+                                <span class="share float-end align-bottom"><i class="fas fa-share-alt-square fa-lg" data-bs-container="body" title="Share Poem" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="
+                                  <div class='list-group list-group-flush'>
+                                    <a href='#' class='list-group-item list-group-item-action px-2 py-1' aria-current='true'>
+                                      <i class='fab fa-facebook fa-sm text-primary'></i> Facebook
+                                    </a>
+                                    <a href='#' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-twitter-square fa-sm text-primary'></i> Twitter</a>
+                                    <a href='#' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-linkedin fa-sm text-primary'></i> Linkedin</a>
+                                    <a href='#' class='list-group-item list-group-item-action px-2 py-1'><i class='fab fa-instagram fa-sm text-primary'></i> Instagram</a>
+                                  </div>" data-bs-html="true"></i>
+                                </span>
+
+                              </div>
+                            </div>
+                            <h4 class="card-title"><a href="{% url 'core:poem' post.slug %}" class="text-dark link-style">{{ post.title }}</a></h4>
+                            <p class="card-text">{{ post.content|safe|striptags|truncatechars:50 }}</p>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <p class="float-start" data-bs-toggle="tooltip" data-bs-placement="top" title="Category"><i class="fas fa-folder fa-sm text-muted"></i> <a href="{% url 'core:poemsCategory' post.category.slug %}" class="text-muted link-style">{{ post.category }}</a></p>
+                                <p class="float-end" data-bs-toggle="tooltip" data-bs-placement="top" title="Sub Category"><i class="far fa-folder-open fa-sm text-muted"></i> <a href="{% url 'core:poemsSubCategory' post.category.slug post.sub_category.slug %}" class="text-muted link-style">{{ post.sub_category }}</a></p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-footer py-3 bg-white">
+                            <a href="{% url 'core:poem' post.slug %}" class="btn btn-outline-dark btn-sm">Read Poem</a>
+                            <div class="float-end">
+                              <a href="{% if user.is_authenticated %}#{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Like / Unlike Poem"><i class="fas fa-heart fa-sm"></i> 20</a>
+                              <span class="btn btn-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Comments"> <i class="fas fa-comment fa-sm"></i> 14</span>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    {% endfor %}
+
+                  </div>
+
+                <!-- FRONTEND ALL POEMS LISTINGS ENDS HERE -->
+
+                </div>
+
+              </div>
+
+              <!-- FRONTEND ALL POEMS PAGINATION NAVIGATION BEGINS HERE -->
+
+              <div class="row py-5">
+                <div class="col-md-12">
+                  {% include "core/pagination.html" with page=all_posts %}
+                </div>
+              </div>
+
+              <!-- FRONTEND ALL POEMS PAGINATION NAVIGATION ENDS HERE -->
+
+              <!-- MOBILE CATEGORY LIST SIDEBAR BEGINS HERE -->
+
+              <div class="row">
+                <div class="col-md-12 d-block d-sm-none">
+                  <h3>Browse By Category</h3>
+
+                </div>
+              </div>
+
+              <!-- MOBILE CATEGORY LIST SIDEBAR ENDS HERE -->
+
+            </div>
+          </div>
+        </div>
+        <!-- RIGHT SIDE CONTENT ENDS HERE -->
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

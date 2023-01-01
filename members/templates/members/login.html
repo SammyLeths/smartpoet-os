@@ -1,0 +1,85 @@
+{% extends "members/auth_base.html" %}
+
+{% load static %}
+{% block title %}
+    Login
+{% endblock %}
+{% block content %}
+
+<div class="row pt-5">
+  <div class="p-5 col-lg-6" >
+    <h1>Login to your account</h1>
+    <p class="mb-3">Don't have a Smartpoet account? <span><a href="{% url 'members:register' %}">Create one</a></span></p>
+
+    <!-- NOTIFICATIONS SECTION BEGINS HERE -->
+
+    {% include 'core/alerts.html' %}
+
+    <!-- NOTIFICATIONS SECTION ENDS HERE-->
+
+    <!-- LOGIN FORM SECTION BEGINS HERE -->
+
+    <form action="{% url 'members:login' %}" method="POST">
+      {% csrf_token %}
+      {% for field in login_form %}
+        <div class="form-group">
+          <ul class="errors list-unstyled pl-0 mb-0">
+            {% for error in field.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {{ field }}
+          {% if field.help_text %}
+            <small id="help_text{{ field.field.widget.attrs.id }}" class="form-text text-muted">{{ field.help_text|safe }}</small>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <div class="form-group">
+        <small class="form-text text-muted text-right">
+          <a href="{% url 'members:reset_password' %}" data-toggle="" data-target=""> Forgot your password?</a>
+        </small>
+      </div>
+      <div class="form-group d-flex">
+        <input class="btn btn-primary btn-sm mr-auto" id="submit" name="submit" type="submit" value="Log In">
+        <a href="/" class="btn btn-secondary btn-sm" role="button" ><i class="fas fa-angle-double-left fa-md"></i> Back to Smartpoet</a>
+      </div>
+    </form>
+
+    <!-- LOGIN FORM SECTION ENDS HERE -->
+
+  </div>
+</div>
+
+<!-- FORGOT PASSWORD MODAL BEGINS HERE -->
+
+<!--<div class="modal fade" id="fpModal" tabindex="-1" role="dialog" aria-labelledby="fpModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reset Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="alert"></div>
+      <p>Lost your password? Please enter your username or email address. You will
+        receive a link to create a new password via email.</p>
+      <form role="form" class="text-left" name="form" id="form_lp">
+        <div class="form-group">
+          <label class="control-label" for="exampleInputEmail1">Email</label>
+          <input class="form-control" id="lpemail_id" placeholder="Enter your email" type="email" name="email">
+        </div>
+        <button type="submit" name="lpsubmit" id="lpsubmit_id" class="btn btn-primary btn-default btn-sm">Submit</button>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary reset_lpform btn-sm" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<!-- FORGOT PASSWORD MODAL ENDS HERE -->
+
+{% endblock %}

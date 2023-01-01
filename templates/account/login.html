@@ -1,0 +1,106 @@
+{% extends "members/auth_base.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load account socialaccount %}
+{% providers_media_js %}
+{% block title %}{% trans "Sign In" %}{% endblock %}
+
+
+  {% block left_content %}
+
+    <h1>Login to your account</h1>
+
+    <p class="mb-3">Don't have a Smartpoet account? <span><a href="{{ signup_url }}">Create one</a></span></p>
+
+    <!-- NOTIFICATIONS SECTION BEGINS HERE -->
+
+      {% include 'core/alerts.html' %}
+
+    <!-- NOTIFICATIONS SECTION ENDS HERE-->
+
+    <!-- LOGIN FORM SECTION BEGINS HERE -->
+
+    <form action="{% url 'account_login' %}" method="POST">
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger fade show formerror" role="alert">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      {% csrf_token %}
+      <div class="row g-3 mb-3">
+        {% for field in form %}
+          {% if field.label == 'Remember Me' %}
+            <div class="col-6">
+              {% if field.help_text %}
+                <small id="help_text{{ field.field.widget.attrs.id }}" class="form-text text-muted">{{ field.help_text|safe }}</small>
+              {% endif %}
+              <div class="form-check">
+                {{ field|attr:"class:form-check-input"|attr:"type:checkbox" }}
+                <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              </div>
+              <ul class="errors list-unstyled pl-0 mb-0">
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="col-6">
+              <small class="form-text text-muted float-end">
+                <a href="{% url 'account_reset_password' %}" data-toggle="" data-target=""> Forgot your password?</a>
+              </small>
+            </div>
+          {% else %}
+            <div class="col-12 col-md-6">
+              {% if field.help_text %}
+                <small id="help_text{{ field.field.widget.attrs.id }}" class="form-text text-muted">{{ field.help_text|safe }}</small>
+              {% endif %}
+              {{ field|attr:"class:form-control" }}
+              <ul class="errors list-unstyled pl-0 mb-0">
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <div class="row">
+        <div class="col-6">
+          <input class="btn btn-primary btn-sm mr-auto" id="submit" name="submit" type="submit" value="Log In">
+        </div>
+        <div class="col-6">
+          <a href="/" class="btn btn-secondary btn-sm float-end" role="button" ><i class="fas fa-angle-double-left fa-md"></i> Back to Smartpoet</a>
+        </div>
+      </div>
+    </form>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="row py-4">
+          <div class="col-12">
+           <div class="separator">
+             <div class="line"></div>
+             <div class="wrapper">
+               <i class="fas fa-feather-alt fa-lg"></i>
+             </div>
+             <div class="line"></div>
+           </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <a class="btn btn-danger w-100" href="{% provider_login_url 'google' %}" role="button" target="_blank"><i class="fab fa-google"></i> Log in with Google</a>
+          </div>
+          <div class="col-12 col-md-6">
+            <a class="btn btn-primary w-100" href="{% provider_login_url 'facebook' method='oauth2' %}" role="button" target="_blank"><i class="fab fa-facebook"></i> Log in with Facebook</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {% endblock %}
+

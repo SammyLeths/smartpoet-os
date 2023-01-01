@@ -1,0 +1,177 @@
+{% extends "members/account_base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+    Manage All Posts
+{% endblock %}
+
+{% block content %}
+
+  <div class="col-md-9 pb-5">
+    <div class="row">
+      <div class="col-md-12 pt-5">
+
+        <!-- NOTIFICATIONS SECTION BEGINS -->
+        {% include 'core/alerts.html' %}
+        <!-- NOTIFICATIONS SECTION ENDS -->
+
+        <div class="row">
+          <div class="col-md-12">
+
+              <!-- NEW BOOTSTRAP 5 FILTER ACCORDION STARTS HERE -->
+
+              <div class="row mb-3">
+                <div class="col-md-12">
+
+                  <form>
+                    <div class="accordion" id="filterTab">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="filterTabHeadingOne">
+                          <button class="accordion-button {% if 'submitFilter' in request.get_full_path %}{% else %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#filterTabCollapseOne" aria-expanded="{% if 'submitFilter' in request.get_full_path %}true{% else %}false{% endif %}" aria-controls="collapseOne">
+                            <i class="fas fa-sort-amount-down fa-sm"></i> &nbsp; Filter
+                          </button>
+                        </h2>
+                        <div id="filterTabCollapseOne" class="accordion-collapse collapse {% if 'submitFilter' in request.get_full_path %} show {% else %}{% endif %}" aria-labelledby="filterTabHeadingOne" data-bs-parent="#filterTab">
+                          <div class="accordion-body">
+                            <div class="row">
+
+                              {% for field in post_filter.form %}
+                                <div class="col-6 col-md-3">
+                                  {% if field.label == 'Author' and request.user.role != 'admin' %}
+
+                                  {% else %}
+                                    {% if field.help_text %}
+                                    <small id="help_text{{ field.field.widget.attrs.id }}" class="form-text text-muted">{{ field.help_text|safe }}</small>
+                                    {% endif %}
+                                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                    {% if field.label == 'Published date' %}
+                                      {% render_field field class="form-control mb-2" type="date" %}
+                                    {% else %}
+                                      {% render_field field class="form-select mb-2" %}
+                                    {% endif %}
+                                  {% endif %}
+                                  <ul class="errors list-unstyled pl-0 mb-0">
+                                    {% for error in field.errors %}
+                                      <li>{{ error }}</li>
+                                    {% endfor %}
+                                  </ul>
+                                </div>
+                              {% endfor %}
+
+                            </div>
+                            <div class="row mt-1">
+                              <div class="col col-md-12">
+                                <input class="btn btn-sm btn-primary" formaction="" formmethod="GET" id="submitFilter" name="submitFilter" type="submit" value="Filter">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+
+              <!-- NEW BOOTSTRAP 5 FILTER ACCORDION ENDS HERE -->
+
+
+              <!-- FILTER SUCCESS ALERT BEGINS HERE -->
+
+              {% if 'submitFilter' in request.get_full_path %}
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      Filter applied successfully: Returned <b>{{ total_record }}</b> result(s)
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+
+              <!-- FILTER SUCCESS ALERT ENDS HERE -->
+
+
+              <!-- BULK ACTION SECTION BEGINS HERE -->
+              <form>
+                <div class="row mb-2">
+                  <div class="col-12 col-md-4 my-auto mb-3 mb-md-0 pb-2">
+                    <span><b>All {% if '?' in request.get_full_path %} Filtered {% endif %} Posts: {{ total_record }} </b></span>
+                  </div>
+                  <div class="col-12 col-md-4">
+
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <div class="row">
+                      <div class="col-9 col-md-9">
+                        {% csrf_token %}
+                        {{ post_ba_form.action }}
+                        <div class="d-block">
+                          <ul class="errors list-unstyled pl-0 mb-0">
+                            {% for error in post_ba_form.action.errors %}
+                              <li>{{ error }}</li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="col-3 col-md-3 px-0">
+                        <input class="btn btn-sm btn-dark" style="margin-left:6px;" formaction="{% url 'posts:postBulkAction' %}" formmethod="POST" id="submitAction" name="submitAction" onclick="return delete_confirm('select_all_posts')" type="submit" value="Apply">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- BULK ACTION SECTION ENDS HERE -->
+
+                <!-- TABLE SECTION BEGINS HERE -->
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="table-responsive">
+                      <table class="table table-striped table-hover ">
+                        <thead>
+                          <tr>
+                            <th scope="col">{{ post_ba_form.select_all }}</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Sub Category</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Published</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for post in all_posts %}
+                            <tr>
+                              <td scope="row">{% render_field post_ba_form.checked_id value=post.id %}</td>
+                              <td><a href="{% url 'posts:postUpdate' post.id %}">{{ post.title }}</a></td>
+                              <td>{{ post.author.username }}</td>
+                              <td>{{ post.category }}</td>
+                              <td>{{ post.sub_category }}</td>
+                              <td>{{ post.status }}</td>
+                              <td>{{ post.published_date }}</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- TABLE SECTION ENDS HERE -->
+
+            </form>
+          </div>
+        </div>
+
+        <!-- ALL POSTS PAGINATION NAVIGATION BEGINS HERE -->
+
+        {% include "core/pagination.html" with page=all_posts %}
+
+        <!-- ALL POSTS PAGINATION NAVIGATION ENDS HERE -->
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

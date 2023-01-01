@@ -1,0 +1,578 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- PAGE SETTINGS -->
+
+  <meta name="description" content="SmartPoet">
+  <meta name="keywords" content="Poetry Poems">
+  <meta name="author" content="Smartecniqs">
+
+  <!-- FONT AWESOME 5 CSS -->
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+  <!-- BOOTSTRAP 5 CSS -->
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+  <!-- Scrollbar Custom CSS -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+  <!-- CUSTOM CSS -->
+
+  <link href="{% static 'core/css/custom.css' %}" rel="stylesheet">
+
+  <title>{% block title %} My Account {% endblock %}</title>
+
+  {{ pi_form.media }}
+
+</head>
+
+<body>
+
+  <div class="d-flex wrapper">
+
+    <!-- Sidebar -->
+
+    <!-- OFF PAGE CONTENT BEGINS HERE -->
+
+    <!-- MOBILE SIDEBAR NAV BEGINS HERE -->
+
+    <!-- Sidebar -->
+
+    {% if user.is_authenticated %}
+
+      <nav id="sidebar" class="bg-light">
+
+        <div class="profile-menu-header bg-light-gray">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item"><h3 class="text-dark">Poet Menu</h3></li>
+            <li class="list-inline-item float-end px-2 py-1 bg-light" id="dismiss"><i class="fas fa-arrow-left text-dark pointer"></i></li>
+          </ul>
+        </div>
+
+        <div class="accordion accordion-flush" id="mobileSideNav">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="manageProfileH1">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#manageProfileC1" aria-expanded="false" aria-controls="manageProfileC1">
+                Manage Profile
+              </button>
+            </h2>
+            <div id="manageProfileC1" class="accordion-collapse collapse" aria-labelledby="manageProfileH1" data-bs-parent="#mobileSideNav">
+              <div class="accordion-body">
+                <div class="list-group list-group-flush">
+                  <a href="{% url 'core:poet' request.user.username %}" class="list-group-item list-group-item-action">My Profile</a>
+                  <a href="{% url 'account_email' %}" class="list-group-item list-group-item-action">Manage Emails</a>
+                  <a href="{% url 'socialaccount_connections' %}" class="list-group-item list-group-item-action">Social Connections</a>
+                  {% if user.has_usable_password %}
+                    <a href="{% url 'account_change_password' %}" class="list-group-item list-group-item-action">Change Password</a>
+                  {% else %}
+                    <a href="{% url 'account_set_password' %}" class="list-group-item list-group-item-action">Set Password</a>
+                  {% endif %}
+                  <a class="list-group-item list-group-item-action pointer" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="fas fa-sign-out-alt fa-md"></i> Log Out</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="manageAccountH1">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#manageAccountC1" aria-expanded="false" aria-controls="manageAccountC1">
+                Manage Account
+              </button>
+            </h2>
+            <div id="manageAccountC1" class="accordion-collapse collapse" aria-labelledby="manageAccountH1" data-bs-parent="#mobileSideNav">
+              <div class="accordion-body">
+                <div class="list-group list-group-flush">
+                  <a href="{% url 'members:account' %}" class="list-group-item list-group-item-action {% if request.path == '/account' %} active {% endif %}">
+                    My Account
+                  </a>
+                  <a href="{% url 'members:account' %}#personalInfoTab" class="list-group-item list-group-item-action {% if request.path == '/account#personalInfoTab' %} sb-active{% endif %}">Personal Information</a>
+                  <a href="{% url 'members:account' %}#educationTab" class="list-group-item list-group-item-action">Education History</a>
+                  <a href="{% url 'members:account' %}#socialTab" class="list-group-item list-group-item-action">Social Profile</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="managePostsH1">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#managePostsC1" aria-expanded="false" aria-controls="managePostsC1">
+                Manage Posts
+              </button>
+            </h2>
+            <div id="managePostsC1" class="accordion-collapse collapse" aria-labelledby="managePostsH1" data-bs-parent="#mobileSideNav">
+              <div class="accordion-body">
+                <div class="list-group list-group-flush">
+                  <a href="{% url 'posts:posts' %}" class="list-group-item list-group-item-action {% if request.path == '/posts' %} active {% endif %}">All Posts</a>
+                  <a href="{% url 'posts:postCreate' %}" class="list-group-item list-group-item-action {% if request.path == '/post-create' %} active {% endif %}">Add New Post</a>
+                  {% if request.user.role == 'admin' %}
+                    <a href="{% url 'posts:category' %}" class="list-group-item list-group-item-action {% if request.path == '/category' %} active {% endif %}">Post Category</a>
+                    <a href="{% url 'posts:subCategory' %}" class="list-group-item list-group-item-action {% if request.path == '/sub-category' %} sb-active{% endif %}">Post Sub Category</a>
+                    <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Post Comments</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% if user.role == 'admin' %}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="manageUsersH1">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#manageUsersC1" aria-expanded="false" aria-controls="manageUsersC1">
+                  Manage Users
+                </button>
+              </h2>
+              <div id="manageUsersC1" class="accordion-collapse collapse" aria-labelledby="manageUsersH1" data-bs-parent="#mobileSideNav">
+                <div class="accordion-body">
+                  <div class="list-group list-group-flush">
+                    <a href="{% url 'members:users' %}" class="list-group-item list-group-item-action {% if request.path == '/users' %} active {% endif %}">All Users</a>
+                    <a href="{% url 'members:register' %}" class="list-group-item list-group-item-action">Add New Users</a>
+                    <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Users Settings</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </nav>
+
+    {% endif %}
+
+    <!-- MOBILE SIDEBAR ENDS HERE -->
+
+    <!-- OFF PAGE CONTENT ENDS HERE -->
+
+    <!-- MAIN PAGE CONTENT BEGINS HERE -->
+
+    <div id="content">
+
+      <!-- TOP NAV BAR BEGINS HERE -->
+
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand py-0" href="{% url 'core:index' %}">
+            <img class="d-none d-md-block d-lg-none" src="{% static 'core/img/smartpoet-logo-2.png' %}" alt="logo" width="40px">
+            <span class="d-md-none d-lg-block" style="font-size:30px; color:#F9F9F9;"><img src="{% static 'core/img/smartpoet-logo-2.png' %}" alt="logo" width="40px" class="align-middle"> <b class="align-middle smf">SMARTPOETS </b></span>
+          </a>
+          {% if user.is_authenticated %}
+            <span class="ms-auto d-sm-none align-middle pointer"><a class="text-light" id="sidebarCollapse"><i class="fas fa-user fa-lg"></i></a></span>
+          {% endif %}
+          <button class="navbar-toggler navbar-toggler-right border-0 align-middle" type="button" data-bs-toggle="collapse" data-bs-target="#navbar10" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbar10">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-2">
+              <li class="nav-item bb mt-3 mt-md-0"> <a class="nav-link" href="{% url 'core:index' %}">Home</a> </li>
+              <li class="nav-item bb"> <a class="nav-link" href="{% url 'core:about' %}">About</a> </li>
+              <li class="nav-item bb"> <a class="nav-link" href="{% url 'core:poems' %}">Poems</a> </li>
+              <li class="nav-item bb"> <a class="nav-link" href="{% url 'core:poets' %}">Poets</a></li>
+              {% if user.is_authenticated %}
+                <li class="nav-item bb pointer" data-bs-toggle="modal" data-bs-target="#logoutModal"> <a class="nav-link">Log Out</a> </li>
+                <li class="nav-item bb"> <a class="nav-link" href="{% url 'members:account' %}">Account</a> </li>
+              {% else %}
+                <li class="nav-item bb"> <a class="nav-link" href="{% url 'account_login' %}">Login</a> </li>
+                <li class="nav-item bb"> <a class="nav-link" href="{% url 'account_signup' %}">Register</a> </li>
+              {% endif %}
+            </ul>
+            <a class="btn btn-sm navbar-btn ml-md-2 btn-light text-dark my-3 my-md-0" href="{% url 'posts:postCreate' %}">Create Poems</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- TOP NAV BAR ENDS HERE -->
+
+      <!-- CONTENT BELOW NAV BAR BEGINS HERE (PROFILE NAV) -->
+
+      <!-- MOBILE PROFILE HEADER CONTENT BEGINS HERE -->
+
+      <div class="profile-header" style="background-image: url( {% if user.cover_image %} {{ user.cover_image.url }} {% else %} {% static 'core/img/profile-header-bg.jpg' %} {% endif %} ); background-position:left center; background-size: cover;">
+        <div class="col-md-12"></div>
+      </div>
+      <div class="container">
+        <div class="row d-sm-none bg-light">
+          <div class="col-md-12 text-center pb-5">
+
+            <img src="{% if user.profile_image %} {{ user.profile_image.url }} {% else %} {% static 'core/img/profile-image.png' %} {% endif %}" class="rounded-circle profile-image img-fluid" width="200px">
+
+            <h2 class="text-center pt-3">@{{ user.username|capfirst }}</h2>
+
+            <ul class="nav nav-pills justify-content-center pt-3">
+              <li class="nav-item">
+                <a class="nav-link text-dark profile-link" href="{{ user.facebook }}" target="_blank"><i class="fab fa-facebook fa-lg"></i></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-dark profile-link" href="{{ user.instagram }}" target="_blank"><i class="fab fa-instagram fa-lg"></i></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-dark profile-link" href="{{ user.twitter }}" target="_blank"><i class="fab fa-twitter fa-lg"></i></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-dark profile-link" href="{{ user.linkedin }}" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+              </li>
+            </ul>
+
+            <ul class="nav nav-pills justify-content-center pt-3">
+              <li class="nav-item">
+                <a class="btn btn-outline-dark btn-sm" href="{% url 'posts:postCreate' %}"><i class="fas fa-pen-nib fa-md"></i> Publish Poems</a>
+                <a class="btn btn-outline-dark btn-sm mx-1" href="{% url 'core:poet' user.username %}"><i class="fas fa-user fa-md"></i> My Profile
+                </a>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE PROFILE HEADER CONTENT ENDS HERE -->
+
+      <!-- DESKTOP PROFILE HEADER CONTENT BEGINS HERE -->
+
+      <div class="container-fluid py-2 bg-profile-nav">
+        <div class="row profile-nav mx-10">
+          <div class="col-md-3"></div>
+          <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-7 col-lg-9 my-auto">
+
+                      <h2 class="float-start d-none d-sm-block">@{{ user.username|capfirst }}</h2>
+
+                      <ul class="nav nav-pills justify-content-center">
+                        <li class="nav-item d-none d-lg-block">
+                          <a class="nav-link text-dark profile-link" href="{% url 'members:account' %}">My Account</a>
+                        </li>
+                        <li class="nav-item d-none d-lg-block">
+                          <a class="nav-link text-dark profile-link" href="{% url 'core:poet' user.username %}">My Profile</a>
+                        </li>
+
+                      </ul>
+                    </div>
+                    <div class="col-md-5 col-lg-3 pr-0 my-auto">
+                      <ul class="nav nav-pills justify-content-end ml-auto">
+                        <li class="nav-item">
+                          <a class="btn btn-outline-dark btn-sm d-none d-sm-block" href="{% url 'posts:postCreate' %}"><i class="fas fa-pen-nib fa-md"></i> Publish Poems</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DESKTOP PROFILE HEADER CONTENT ENDS HERE -->
+
+      <!-- MOBILE & DESKTOP PROFILE STATS CONTENT BEGINS HERE -->
+
+      <div class="container">
+        <div class="row profile-nav">
+          <div class="col-md-3 d-none text-center d-sm-block">
+
+            <img src="{% if user.profile_image %}{{ user.profile_image.url }} {% else %} {% static 'core/img/profile-image.png' %} {% endif %}" class="rounded-circle profile-image img-fluid">
+
+            <ul class="nav nav-pills justify-content-center pt-3">
+              <li class="nav-item d-none d-sm-block">
+                <a class="nav-link text-dark profile-link" href="{{ user.facebook }}" target="_blank"><i class="fab fa-facebook fa-lg"></i></a>
+              </li>
+              <li class="nav-item d-none d-sm-block">
+                <a class="nav-link text-dark profile-link" href="{{ user.instagram }}" target="_blank"><i class="fab fa-instagram fa-lg"></i></a>
+              </li>
+              <li class="nav-item d-none d-sm-block">
+                <a class="nav-link text-dark profile-link" href="{{ user.twitter }}" target="_blank"><i class="fab fa-twitter fa-lg"></i></a>
+              </li>
+              <li class="nav-item d-none d-sm-block">
+                <a class="nav-link text-dark profile-link" href="{{ user.linkedin }}" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-9 pt-4">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row stat-wrapper">
+                  <div class="col-6 col-sm-3 col-md-6 col-lg-4 px-4 pb-3">
+                    <div class="row bg-simple-dark rounded px-2 px-md-3 py-2 bg-simple-dark">
+                      <div class="col-8 col-md-8 px-0 my-auto">
+                        Followers
+                        <h6 class="mb-0"><b>{{ user_profile.follower.count }}</b></h6>
+                      </div>
+                      <div class="col-4 col-md-4 px-0 my-auto">
+                        <img src="{% static '/core/img/followers-white.png' %}" class="stat-icon float-end" alt="poet followers">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-sm-3 col-md-6 col-lg-4 px-4 pb-3">
+                    <div class="row bg-simple-dark rounded px-2 px-md-3 py-2 bg-simple-dark-tint1">
+                      <div class="col-8 col-md-8 px-0 my-auto">
+                        Following
+                        <h6 class="mb-0"><b>{{ user_profile.following.count }}</b></h6>
+                      </div>
+                      <div class="col-4 col-md-4 px-0 my-auto">
+                        <img src="{% static '/core/img/following-white.png' %}" class="stat-icon float-end" alt="poet followings">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-sm-3 col-md-6 col-lg-4 px-4 pb-3">
+                    <div class="row bg-simple-dark rounded px-2 px-md-3 py-2 bg-simple-dark-tint2">
+                      <div class="col-8 col-md-8 px-0 my-auto">
+                        Upvotes
+                        <h6 class="mb-0"><b>{{ total_uv }}</b></h6>
+                      </div>
+                      <div class="col-4 col-md-4 px-0 my-auto">
+                        <img src="{% static '/core/img/upvote-white.png' %}" class="stat-icon float-end" alt="poet upvotes">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-sm-3 col-md-6 col-lg-4 px-4 pb-3">
+                    <div class="row bg-simple-dark rounded px-2 px-md-3 py-2 bg-simple-dark-tint2">
+                      <div class="col-8 col-md-8 px-0 my-auto">
+                        Birthday
+                        <h6 class="mb-0"><b>{{ user.birthday|date:'b d'|capfirst }}</b></h6>
+                      </div>
+                      <div class="col-4 col-md-4 px-0 my-auto">
+                        <img src="{% static '/core/img/poem-white.png' %}" class="stat-icon float-end" alt="poems published">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-sm-3 col-md-6 col-lg-4 px-4 pb-3">
+                    <div class="row bg-simple-dark rounded px-2 px-md-3 py-2 bg-simple-dark-tint1">
+                      <div class="col-8 col-md-8 px-0 my-auto">
+                        Published
+                        <h6 class="mb-0"><b>{{ user.user.count }} Poem(s)</b></h6>
+                      </div>
+                      <div class="col-4 col-md-4 px-0 my-auto">
+                        <img src="{% static '/core/img/poem-white.png' %}" class="stat-icon float-end" alt="poems published">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-sm-3 col-md-6 col-lg-4 px-4 pb-3">
+                    <div class="row bg-simple-dark rounded px-2 px-md-3 py-2 bg-simple-dark">
+                      <div class="col-8 col-md-8 px-0 my-auto">
+                        Region
+                        <h6 class="mb-0"><b>
+                          {% if user.region == None %}
+                            None
+                          {% else %}
+                            {{ user.region|capfirst }}
+                          {% endif %}
+                          </b>
+                        </h6>
+                      </div>
+                      <div class="col-4 col-md-4 px-0 my-auto">
+                        <img src="{% static '/core/img/region-white.png' %}" class="stat-icon float-end" alt="poet region">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE & DESKTOP PROFILE STATS CONTENT ENDS HERE -->
+
+      <!-- MAIN PAGE CONTENT BLOCK BELOW TOP NAV & HEADER BEGINS HERE -->
+
+      <div class="container pb-5">
+        <div class="row bg-white">
+          <div class="col-md-12">
+            <div class="row">
+
+              <!-- DESKTOP SIDEBAR BEGINS HERE -->
+
+              <div class="col-md-3 pb-sm-1 pb-md-5 pb-lg-5">
+
+                <!-- DESKTOP SIDEBAR NAV BEGINS HERE -->
+
+                <!-- STICKY SIDEBAR WRAPPER BEGINS HERE -->
+
+                <div class="sticky-top d-none d-sm-block mt-5" style="top:100px;">
+                  <div class="sidebar-content">
+
+                    <!-- NEW BOOTSTRAP 5 SIDEBAR NAV FLUSHED ACCORDION STARTS HERE -->
+
+                    <div class="accordion" id="accordionExample">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingZero">
+                          <button class="accordion-button p-2 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseZero" aria-expanded="false" aria-controls="collapseZero">
+                            Manage Profile
+                          </button>
+                        </h2>
+                        <div id="collapseZero" class="accordion-collapse collapse" aria-labelledby="headingZero" data-bs-parent="#accordionExample">
+                          <div class="accordion-body p-2">
+                            <div class="list-group list-group-flush">
+                              <a href="{% url 'core:poet' request.user.username %}" class="list-group-item list-group-item-action">My Profile</a>
+                              <a href="{% url 'account_email' %}" class="list-group-item list-group-item-action">Manage Emails</a>
+                              <a href="{% url 'socialaccount_connections' %}" class="list-group-item list-group-item-action">Social Connections</a>
+                              {% if user.has_usable_password %}
+                                <a href="{% url 'account_change_password' %}" class="list-group-item list-group-item-action">Change Password</a>
+                              {% else %}
+                                <a href="{% url 'account_set_password' %}" class="list-group-item list-group-item-action">Set Password</a>
+                              {% endif %}
+                              <a class="list-group-item list-group-item-action pointer" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="fas fa-sign-out-alt fa-md"></i> Log Out</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                          <button class="accordion-button p-2 {% if request.path == '/members/account' %} {% else %} collapsed {% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="{% if request.path == '/members/account' %} true {% else %} false {% endif %}" aria-controls="collapseOne">
+                            Manage Account
+                          </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse {% if request.path == '/members/account' %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                          <div class="accordion-body p-2">
+                            <div class="list-group list-group-flush">
+                              <a href="{% url 'members:account' %}#personalInfoTab" class="px-2 py-1 list-group-item list-group-item-action {% if request.get_full_path == '/members/account#personalInfoTab' %} active {% else %} {% endif %} " aria-current="true">
+                                Personal Information
+                              </a>
+                              <a href="{% url 'members:account' %}#educationTab" class="px-2 py-1 list-group-item list-group-item-action {% if request.get_full_path == '/members/account#educationTab' %} active {% else %} {% endif %}">Education History</a>
+                              <a href="{% url 'members:account' %}#socialTab" class="px-2 py-1 list-group-item list-group-item-action {% if request.get_full_path == '/members/account#socialTab' %} active {% else %} {% endif %}">Social Profiles</a>
+                              <a href="{% url 'account_email' %}" class="px-2 py-1 list-group-item list-group-item-action" tabindex="-1" aria-disabled="false">Profile Settings</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                          <button class="accordion-button p-2 {% if request.path == '/posts/all-posts' or request.path == '/posts/create-poem' or request.path == '/posts/category' or request.path == '/posts/sub-category' %} {% else %} collapsed {% endif %} " type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="{% if request.path == '/posts/all-posts' or request.path == '/posts/create-poem' or request.path == '/posts/category' or request.path == '/posts/sub-category' %} true {% else %} false {% endif %}" aria-controls="collapseTwo">
+                            Manage Posts
+                          </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse{% if request.path == '/posts/all-posts' or request.path == '/posts/create-poem' or request.path == '/posts/category' or request.path == '/posts/sub-category' %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                          <div class="accordion-body p-2">
+                            <div class="list-group list-group-flush">
+                              <a href="{% url 'posts:posts' %}" class="px-2 py-1 list-group-item list-group-item-action {% if request.path == '/posts/all-posts' %} active {% else %} {% endif %}" aria-current="true">
+                                All Posts
+                              </a>
+                              <a href="{% url 'posts:postCreate' %}" class="px-2 py-1 list-group-item list-group-item-action {% if request.path == '/posts/create-poem' %} active {% else %} {% endif %}">Add New Post</a>
+                              {% if request.user.role == 'admin' %}
+                                <a href="{% url 'posts:category' %}" class="px-2 py-1 list-group-item list-group-item-action {% if request.path == '/posts/category' %} active {% else %} {% endif %}">Post Category</a>
+                                <a href="{% url 'posts:subCategory' %}" class="px-2 py-1 list-group-item list-group-item-action {% if request.path == '/posts/sub-category' %} active {% else %} {% endif %}">Post Sub Category</a>
+                              {% endif %}
+                              <a href="#" class="px-2 py-1 list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Post Comments</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% if user.role == 'admin' %}
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button p-2 {% if request.path == '/members/users' or request.path == '/members/register' %} {% else %} collapsed {% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="{% if request.path == '/members/users' or request.path == '/members/register' %} true {% else %} false {% endif %}" aria-controls="collapseThree">
+                              Manage Users
+                            </button>
+                          </h2>
+                          <div id="collapseThree" class="accordion-collapse {% if request.path == '/members/users' or request.path == '/members/register' %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            <div class="accordion-body p-2">
+                              <div class="list-group list-group-flush">
+                                <a href="{% url 'members:users' %}" class="px-2 py-1 list-group-item list-group-item-action {% if request.path == '/members/users' %} active {% else %} {% endif %}" aria-current="true">
+                                  All Users
+                                </a>
+                                <a href="{% url 'account_signup' %}" class="px-2 py-1 list-group-item list-group-item-action {% if request.path == '/members/register' %} active {% else %} {% endif %}">Add New User</a>
+                                <a href="#" class="px-2 py-1 list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">User Settings</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {% endif %}
+                    </div>
+
+                    <!-- NEW BOOTSTRAP 5 SIDEBAR NAV FLUSHED ACCORDION ENDS HERE -->
+
+                  </div>
+                </div>
+
+                <!-- STICKY SIDEBAR WRAPPER ENDS HERE -->
+
+
+
+
+
+
+                <!-- DESKTOP SIDEBAR NAV ENDS HERE -->
+
+              </div>
+
+              <!-- DESKTOP SIDEBAR ENDS HERE -->
+
+              {% block content %}
+
+              {% endblock %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DESKTOP SIDEBAR NAV ENDS HERE -->
+
+      <!-- Log Out Modal -->
+
+      <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="logoutModalLabel">Log Out</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+
+              <h3>{% trans "Sign Out Of Smartpoet" %}</h3>
+
+              <p>{% trans 'Are you sure you want to sign out?' %}</p>
+
+              <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                {% if redirect_field_value %}
+                  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-sign-out-alt fa-md"></i> {% trans 'Proceed To Log Out' %}</button>
+              </form>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="text-muted py-5 bg-dark">
+        <div class="container">
+          <p class="float-end">
+            <a href="#">Back to top</a>
+          </p>
+          <p>Smartpoets © 2020, All rights reserved</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Dark Overlay element -->
+    <div class="overlay"></div>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+  <!-- jQuery Custom Scroller CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+  <!-- Custom Js in static folder -->
+
+  <script src="{% static '/core/js/custom.js' %}"></script>
+
+  <script id="dsq-count-scr" src="//smartpoet.disqus.com/count.js" async></script>
+
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for sub_cat in subcategory %}
+<option value="{{ sub_cat.pk }}">{{ sub_cat.name }}</option>
+{% endfor %}

@@ -1,0 +1,171 @@
+{% extends "members/account_base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+    All Users
+{% endblock %}
+
+{% block content %}
+
+  <div class="col-md-9 pb-5">
+    <div class="row">
+      <div class="col-md-12 pt-5">
+
+        <!-- NOTIFICATIONS SECTION BEGINS HERE -->
+
+          {% include 'core/alerts.html' %}
+
+        <!-- NOTIFICATIONS SECTION ENDS HERE -->
+
+        <div class="row">
+          <div class="col-md-12">
+            <form>
+
+              <!-- NEW BOOTSTRAP 5 FILTER ACCORDION STARTS HERE -->
+
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <div class="accordion" id="filterTab">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="filterTabHeadingOne">
+                        <button class="accordion-button {% if 'submitFilter' in request.get_full_path %}{% else %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#filterTabCollapseOne" aria-expanded="{% if 'submitFilter' in request.get_full_path %}true{% else %}false{% endif %}" aria-controls="collapseOne">
+                          <i class="fas fa-sort-amount-down fa-sm"></i> &nbsp; Filter
+                        </button>
+                      </h2>
+                      <div id="filterTabCollapseOne" class="accordion-collapse collapse {% if 'submitFilter' in request.get_full_path %} show {% else %}{% endif %}" aria-labelledby="filterTabHeadingOne" data-bs-parent="#filterTab">
+                        <div class="accordion-body">
+                          <div class="row">
+
+                            {% for field in user_filter.form %}
+                              <div class="col-6 col-md-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {% if field.label == 'Status' %}
+                                  {% render_field field class="form-select mb-2" %}
+                                {% else %}
+                                  {% render_field field class="form-control mb-2"  placeholder=field.label %}
+                                {% endif %}
+                                <ul class="errors list-unstyled pl-0 mb-0">
+                                  {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                  {% endfor %}
+                                </ul>
+                                {% if field.help_text %}
+                                  <small id="help_text{{ field.field.widget.attrs.id }}" class="form-text text-muted">{{ field.help_text|safe }}</small>
+                                {% endif %}
+                              </div>
+                            {% endfor %}
+                          </div>
+                          <div class="row mt-1">
+                            <div class="col col-md-12">
+                              <input class="btn btn-sm btn-primary" formaction="" formmethod="GET" id="submitFilter" name="submitFilter" type="submit" value="Filter">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- NEW BOOTSTRAP 5 FILTER ACCORDION ENDS HERE -->
+
+
+              <!-- FILTER SUCCESS ALERT BEGINS HERE -->
+
+              {% if '?' in request.get_full_path %}
+
+                {% include 'core/filter_alerts.html' with total_record=total_record %}
+
+              {% endif %}
+
+              <!-- FILTER SUCCESS ALERT ENDS HERE -->
+
+
+              <!-- BULK ACTION SECTION BEGINS HERE -->
+
+              <div class="row mb-1">
+                <div class="col-12 col-md-4 my-auto pb-2">
+                  <span><b>All {% if '?' in request.get_full_path %} Filtered {% endif %} Users: {{ total_record }}</b></span>
+                </div>
+                <div class="col-12 col-md-4">
+
+                </div>
+                <div class="col-12 col-md-4">
+                  <div class="row">
+                    <div class="col-9 col-md-9 my-auto">
+                      {% csrf_token %}
+                      {{ user_ba_form.action }}
+                      <div class="d-block">
+                        <ul class="errors list-unstyled pl-0 mb-0">
+                          {% for error in user_ba_form.action.errors %}
+                            <li>{{ error }}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-3 col-md-3 px-0">
+                      <input class="btn btn-sm btn-dark" style="margin-left:6px;" formaction="{% url 'members:usersBulkAction' %}" formmethod="POST" id="submit" name="submit" onclick="return delete_confirm('select_all_users')" type="submit" value="Apply">
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- BULK ACTION SECTION ENDS HERE -->
+
+
+              <!-- FILTER SECTION ENDS HERE -->
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">{{ user_ba_form.select_all }}</th>
+                          <th scope="col">Username</th>
+                          <th scope="col">Full Name</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Role</th>
+                          <th scope="col">Active</th>
+                          <th scope="col">Profile Status</th>
+                          <th scope="col">Posts</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for poetuser in all_users %}
+                          <tr>
+                            <th scope="row">{% render_field user_ba_form.checked_id value=poetuser.id %}</th>
+                            <td><a href="{% url 'members:userUpdate' poetuser.id %}">{{ poetuser.username }}</a></td>
+                            <td>{{ poetuser.first_name }} {{ poetuser.last_name }}</td>
+                            <td>{{ poetuser.email }}</td>
+                            <td>{{ poetuser.role }}</td>
+                            <td>{{ poetuser.is_active }}</td>
+                            <td>{{ poetuser.status }}</td>
+                            <td><a href="#"><i class="fa fa-pen"> <span class="badge bg-secondary">
+                              {{ poetuser.total_posts }}</span></i></a></td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        <!-- ALL USERS PAGINATION NAVIGATION BEGINS HERE -->
+
+        {% include "core/pagination.html" with page=all_users %}
+
+        <!-- ALL USERS PAGINATION NAVIGATION ENDS HERE -->
+
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
