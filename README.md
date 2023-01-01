@@ -1,19 +1,24 @@
-My project was conducted by myself alone
+<h1>Smartpoet</h1>
 
 The project involves development of an online publishing platform for poets where they can publish poems.
-
 The name of the site is Smartpoet and is hosted on a heroku live server here https://smartpoet.herokuapp.com
-
 I developed an online publishing platform for poets because of my interest and love for Poetry. The web app was developed using:
 
-- Python
-- Django
-- Javascript
-- PostgreSQL
-- HTML
-- CSS
-- Bootstrap
-- Disqus commenting system (Third party integration)
+<ul>
+    <li>Python</li>
+    <li>Django</li>
+    <li>Javascript</li>
+    <li>PostgreSQL</li>
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>Bootstrap</li>
+    <li>Disqus commenting system (Third party integration)</li>
+</ul>
+
+<h2>Screenshots</h2>
+
+![Artboard 1v1-min](https://user-images.githubusercontent.com/64320618/210186021-5996d900-674f-438a-80b7-bf06b3fb72ef.png)
+
 
 Some of the features of Smartpoet includes:
 
