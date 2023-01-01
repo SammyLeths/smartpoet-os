@@ -90,7 +90,9 @@ A) Distinctiveness, Complexity requirements and Files
     CORE
         - which serves mostly the frontend views and general assets
         - Models: 0
-        - Files: (apps.py - config for core app, views.py - displays core/frontend views, urls.py - manages core urls)
+        - Files: (apps.py - config for core app, 
+                  views.py - displays core/frontend views, 
+                  urls.py - manages core urls)
     
     POSTS 
         - which serves the poems published by registered poets, including categories and sub categories:
