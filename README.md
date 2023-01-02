@@ -88,7 +88,7 @@ I developed an online publishing platform for poets because of my interest and l
 
 **************************************
 
-<h2>A) Distinctiveness, Complexity requirements and Files</h2>
+<h2>Distinctiveness, Complexity requirements and Files</h2>
 
 <ol type="A">
   <li><h4>The django project was structured to contain 3 apps:</h4>
@@ -154,7 +154,8 @@ I developed an online publishing platform for poets because of my interest and l
   <li><h4>The django project was setup to include post/poem voting (upvote and downvote)</h4></li>
 </ol>
    
-<h2>The application can be run by simply:</h2>
+<h2>How to run the application on your local machine</h2>
+<p>The application can be run by simply following the steps below:</p>
 <ol type="1">
   <li>installing dependencies inside requirements.txt file</li>
   <li>creating a postgreSQL database and user</li>
