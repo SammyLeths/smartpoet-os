@@ -157,14 +157,14 @@ I developed an online publishing platform for poets because of my interest and l
 <h2>How to run the application on your local machine</h2>
 <p>The application can be run by simply following the steps below:</p>
 <ol type="1">
-  <li>installing dependencies inside requirements.txt file</li>
-  <li>creating a postgreSQL database and user</li>
-  <li>editing the settings.py file to include new database details</li>
-  <li>executing a migrate command ("python manage.py migrate")</li>
-  <li>creating a super user</li>
-  <li>creating a profile from the django admin for the super user</li>
-  <li>adding a site from the django admin by the superuser</li>
-  <li>adding social applications using API keys from google and facebook</li>
+  <li>Install dependencies inside requirements.txt file</li>
+  <li>Create a postgreSQL database and user</li>
+  <li>Edit the settings.py file to include new database details</li>
+  <li>Execute a migrate command ("python manage.py migrate")</li>
+  <li>Create a super user</li>
+  <li>Create a profile from the django admin for the super user</li>
+  <li>Add a site from the django admin by the superuser</li>
+  <li>Add social applications using API keys from google and facebook</li>
 </ol>
 
 Thanks for the opportunity to learn python and django!
