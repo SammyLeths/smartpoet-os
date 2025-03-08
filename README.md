@@ -21,7 +21,6 @@ I developed an online publishing platform for poets because of my interest and l
 
 ![Artboard 1v2-min](https://user-images.githubusercontent.com/64320618/210203253-cac788e4-d5a9-49d6-b44a-308e30dcd1ee.png)
 
-
 <h2>Some of the features of Smartpoet includes:</h2>
 
 <ol type="A">
@@ -86,7 +85,7 @@ I developed an online publishing platform for poets because of my interest and l
   </li>
 </ol>
 
-**************************************
+---
 
 <h2>Distinctiveness, Complexity requirements and Files</h2>
 
@@ -235,4 +234,5 @@ and integrate systems more effectively.
   <li>Portfolio - <a href="https://sammyleths.com" target="_blank">@SammyLeths</a></li>
   <li>Linkedin - <a href="https://www.linkedin.com/in/eyiowuawi/" target="_blank">@SammyLeths</a></li>
   <li>Twitter - <a href="https://twitter.com/SammyLeths" target="_blank">@SammyLeths</a></li>
+  <li>Buy me a Coffee - <a href="https://buymeacoffee.com/sammyleths" target="_blank"> @SammyLeths </a></li>
 </ul>
